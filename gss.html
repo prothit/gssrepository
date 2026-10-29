@@ -20,12 +20,29 @@
 <body>
 
 <nav class="navbar navbar-expand-sm bg-dark navbar-dark bg-opacity-25 p-0">
-  <div class="container-fluid p-0" >
-    <a class="navbar-brand" href="#">
-      <img src="./images/logo.jpg" alt=" Gss Corporation Logo">
+  <div class="container-fluid px-3">
+    <!-- 1. Brand Logo (Always visible) -->
+    <a class="navbar-brand" href="./gss.html">
+      <img src="./images/logo.jpg" alt="Gss Corporation Logo">
     </a>
+
+    <!-- 2. Hamburger Button (Only visible on small screens) -->
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mynavbar">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <!-- 3. Collapsible Links Container -->
+    <div class="collapse navbar-collapse" id="mynavbar">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <!-- Using 'nav-link' makes it style beautifully on all screen sizes -->
+          <a class="nav-link fw-bold text-light" href="./aboutus.html">ABOUT US</a>
+        </li>
+      </ul>
+    </div>
   </div>
 </nav>
+
  <div id="main" class="container-fluid bg-dark bg-opacity-25 mt-3 p-5" >
   <h3 >FUNCTIONALITIES OF GSS CORPORATION</h3>
      <h3>1.Supply of Poles and Telecom Optical fibre, Patch Cord, SFP, Router, ONU and Data transfer Items in major brands.</h3>
