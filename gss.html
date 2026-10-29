@@ -7,6 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
   
   <style>
   img{
@@ -14,12 +15,18 @@
    height:50px;
   
   }
+  nav a:hover{
+  cursor:pointer;
+  background-color:yellow;
+  
+  
+  }
   
   </style>
 </head>
-<body>
+<body ng-app="myApp" ng-controller="myCtrl">
 
-<nav class="navbar navbar-expand-sm bg-dark navbar-dark bg-opacity-25 p-0">
+<nav class="navbar navbar-expand-sm bg-dark navbar-dark bg-opacity-50 p-0">
   <div class="container-fluid px-3">
     <!-- 1. Brand Logo (Always visible) -->
     <a class="navbar-brand" href="./gss.html">
@@ -47,8 +54,20 @@
   <h3 >FUNCTIONALITIES OF GSS CORPORATION</h3>
      <h3>1.Supply of Poles and Telecom Optical fibre, Patch Cord, SFP, Router, ONU and Data transfer Items in major brands.</h3>
      <h3>2.Supply of all type CCTV Camera and All accessories NVR , DVR Connector Etc.</h3>
+	 
+	
+  
+  <!-- <div class="card w-30" style="width:300px">
+    <div class="card-header">Header</div>
+    <div class="card-body bg-primary bg-opacity-
+  10" >Content</div> 
+    <div class="card-footer">Footer</div>
+  </div> -->
+
 
  </div>
+ 
+ 
 
 
 </body>
