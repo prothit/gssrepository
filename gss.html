@@ -10,7 +10,7 @@
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
   
   <style>
-  img{
+  #logoimg{
    width:50px;
    height:50px;
   }
@@ -21,13 +21,11 @@
   .grid-container{
   display:grid;
   grid-template-columns: repeat(auto-fit, minmax(300px,1fr));
-  background-color:#000910;
   padding:10px;
   grid-gap:10px;
   overflow:auto;
 }
 .grid-container>div{
- background-color:yellow;
  text-align:center;
  padding:5px;
  font-size:30px;
@@ -36,9 +34,30 @@
 }
 
 .grid-container>div:hover{
-  background-color:blue;
+  background-color:yellow;
 }
   </style>
+  
+ <script>
+    // 1. Initialize the AngularJS Application
+    var app = angular.module('myApp', []);
+
+    // 2. Define the missing controller and inject $scope
+    app.controller('myCtrl', function($scope) {
+        
+        // 3. Attach the array to $scope so ng-repeat can see it
+        $scope.pathlist = [
+            './images/poles1.jpg','./images/poles2.jpg','./images/poles3.jpg', 
+            './images/poles4.jpg','./images/poles5.jpg','./images/poles6.jpg', 
+            './images/poles7.jpg','./images/poles8.jpg','./images/poles9.jpg',
+            './images/poles10.jpg','./images/poles11.jpg','./images/poles12.jpg',
+            './images/poles13.jpg','./images/poles14.jpg','./images/poles15.jpg', 
+            './images/poles16.jpg','./images/poles17.jpg','./images/poles18.jpg',
+            './images/poles19.jpg','./images/poles20.jpg'
+        ];
+    });
+</script>
+
 </head>
 <body ng-app="myApp" ng-controller="myCtrl">
 
@@ -46,7 +65,7 @@
   <div class="container-fluid px-3">
     <!-- 1. Brand Logo (Always visible) -->
     <a class="navbar-brand" href="./gss.html">
-      <img src="./images/logo.jpg" alt="Gss Corporation Logo">
+      <img id="logoimg" src="./images/logo.jpg" alt="Gss Corporation Logo">
     </a>
 
     <!-- 2. Hamburger Button (Only visible on small screens) -->
@@ -70,30 +89,11 @@
   <h3 >FUNCTIONALITIES OF GSS CORPORATION</h3>
      <h3>1.Supply of Poles and Telecom Optical fibre, Patch Cord, SFP, Router, ONU and Data transfer Items in major brands.</h3>
      <h3>2.Supply of all type CCTV Camera and All accessories NVR , DVR Connector Etc.</h3>
-	 
-	
-  
-  <!-- <div class="card w-30" style="width:300px">
-    <div class="card-header">Header</div>
-    <div class="card-body bg-primary bg-opacity-
-  10" >Content</div> 
-    <div class="card-footer">Footer</div>
-  </div> -->
-
-
  </div>
+ <div class="text-white bg-dark fw-bold text-center">Our Products:: </div>
+ <div class="grid-container mt-3 bg-dark bg-opacity-25 ">
  
- <div class="grid-container">
-  <div class="item1">1</div>
-  <div class="item2">2</div>
-  <div class="item3">3</div>  
-  <div class="item4">4</div>
-  <div class="item5">5</div>
-  <div class="item6">6</div>
-  <div class="item7">7</div>
-  <div class="item8">8</div>
-  <div class="item9">9</div>
-  <div class="item10">10</div>
+  <div class="bg-opacity-25" ng-repeat="path in pathlist"><img class="img-fluid" src={{path}}></div>
 </div>
 
 
