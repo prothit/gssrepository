@@ -31,23 +31,37 @@
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
 
 <script>
-    // 1. Initialize the AngularJS Application
-    var app = angular.module('myApp', []);
+   // 1. Initialize the AngularJS Application
+var app = angular.module('myApp', []);
 
-    // 2. Define the missing controller and inject $scope
-    app.controller('myCtrl', function($scope) {
-        
-        // 3. Attach the array to $scope so ng-repeat can see it
-        $scope.pathlist = [
-            'assets/images/poles1.jpg','assets/images/poles2.jpg','assets/images/poles3.jpg', 
-            'assets/images/poles4.jpg','assets/images/poles5.jpg','assets/images/poles6.jpg', 
-            'assets/images/poles7.jpg','assets/images/poles8.jpg','assets/images/poles9.jpg',
-            'assets/images/poles10.jpg','assets/images/poles11.jpg','assets/images/poles12.jpg',
-            'assets/images/poles13.jpg','assets/images/poles14.jpg','assets/images/poles15.jpg', 
-            'assets/images/poles16.jpg','assets/images/poles17.jpg','assets/images/poles18.jpg',
-            'assets/images/poles19.jpg','assets/images/poles20.jpg'
-        ];
-    });
+// 2. Custom directive to detect when ng-repeat is completely finished
+app.directive('onRepeatFinished', function($timeout) {
+    return {
+        restrict: 'A',
+        link: function(scope, element, attr) {
+            if (scope.$last === true) {
+                $timeout(function() {
+                    // Trigger a fake window resize event to force layout scripts to re-calculate heights/visibilities
+                    window.dispatchEvent(new Event('resize'));
+                }, 200); // Small delay to let the browser paint the images first
+            }
+        }
+    };
+});
+
+// 3. Define the controller
+app.controller('myCtrl', function($scope) {
+    $scope.pathlist = [
+        'assets/images/poles1.jpg','assets/images/poles2.jpg','assets/images/poles3.jpg', 
+        'assets/images/poles4.jpg','assets/images/poles5.jpg','assets/images/poles6.jpg', 
+        'assets/images/poles7.jpg','assets/images/poles8.jpg','assets/images/poles9.jpg',
+        'assets/images/poles10.jpg','assets/images/poles11.jpg','assets/images/poles12.jpg',
+        'assets/images/poles13.jpg','assets/images/poles14.jpg','assets/images/poles15.jpg', 
+        'assets/images/poles16.jpg','assets/images/poles17.jpg','assets/images/poles18.jpg',
+        'assets/images/poles19.jpg','assets/images/poles20.jpg'
+    ];
+});
+
 </script>
 </head>
 
@@ -212,7 +226,7 @@
 
           <div class="row gy-4 isotope-container" data-aos="fade-up" data-aos-delay="200">
 
-            <div class="col-lg-4 col-md-6 portfolio-item isotope-item filter-app" ng-repeat="path in pathlist">
+            <div class="col-lg-4 col-md-6 portfolio-item isotope-item filter-app" ng-repeat="path in pathlist" on-repeat-finished>
               <img  class="img-fluid" alt="" ng-src="{{path}}">
              <!--  <div class="portfolio-info">
                 <h4>App 1</h4>
