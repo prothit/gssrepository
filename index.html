@@ -1,9 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" ng-app="gssApp">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>GSS Corporation | Connecting Technology. Empowering India.</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.3/angular.min.js"></script>
   <style>
     :root {
       --primary-navy: #0a2e6e;
@@ -352,7 +353,7 @@
     }
 
     .pillar-icon {
-      font-size: 1.4rem;
+      font-size: 1.2rem;
       font-weight: 800;
       color: var(--primary-navy);
       background: var(--light-blue);
@@ -412,7 +413,7 @@
       font-size: 1rem;
     }
 
-    /* Functionalities / Core Offerings Grid */
+    /* Functionalities Grid */
     .bg-soft {
       background-color: #f8fafc;
     }
@@ -478,6 +479,7 @@
       display: inline-flex;
       align-items: center;
       gap: 6px;
+      cursor: pointer;
     }
 
     /* Product Showcase Gallery */
@@ -878,7 +880,7 @@
     }
   </style>
 </head>
-<body>
+<body ng-controller="MainController">
 
   <div class="top-bar">
     <div class="container">
@@ -887,7 +889,7 @@
         <span><span class="badge-dot">&#10003;</span> Pan-India Just-In-Time Delivery</span>
       </div>
       <div>
-        <span>Connecting Technology. Empowering India.</span>
+        <span>{{ company.tagline }}</span>
       </div>
     </div>
   </div>
@@ -895,34 +897,32 @@
   <header>
     <div class="container navbar">
       <a href="#home" class="logo-wrap">
-        <img src="assets/images/logo.jpg" alt="GSS Corporation Logo" onerror="this.style.display='none'; document.getElementById('logoText').style.display='flex';" />
+        <img ng-src="{{ company.logoPath }}" alt="GSS Corporation Logo" onerror="this.style.display='none'; document.getElementById('logoText').style.display='flex';" />
         <div class="brand-fallback" id="logoText" style="display:flex;">
-          <strong>GSS CORPORATION</strong>
-          <span>Connecting Technology. Empowering India.</span>
+          <strong>{{ company.name }}</strong>
+          <span>{{ company.tagline }}</span>
         </div>
       </a>
 
       <nav>
-        <ul class="nav-links" id="navLinks">
-          <li><a href="#home">Home</a></li>
-          <li><a href="#about">About Us</a></li>
+        <ul class="nav-links" ng-class="{'active': mobileMenuOpen}">
+          <li><a href="#home" ng-click="mobileMenuOpen = false">Home</a></li>
+          <li><a href="#about" ng-click="mobileMenuOpen = false">About Us</a></li>
           <li class="dropdown">
             <a href="#functionalities">Functionalities &#9662;</a>
             <ul class="dropdown-menu">
-              <li><a href="#functionalities">Utility &amp; Octagonal Poles</a></li>
-              <li><a href="#functionalities">HDPE &amp; DWC Telecom Ducts</a></li>
-              <li><a href="#functionalities">Optical Fibre &amp; Patch Cords</a></li>
-              <li><a href="#functionalities">SFP, Routers &amp; ONU Devices</a></li>
-              <li><a href="#functionalities">Data Transfer Hardware</a></li>
+              <li ng-repeat="item in functionalities | limitTo:5">
+                <a href="#functionalities" ng-click="mobileMenuOpen = false">{{ item.title }}</a>
+              </li>
             </ul>
           </li>
-          <li><a href="#products">Product Portfolio</a></li>
-          <li><a href="#industries">Industries</a></li>
-          <li><a href="#contact" class="btn-primary">Request Quote</a></li>
+          <li><a href="#products" ng-click="mobileMenuOpen = false">Product Portfolio</a></li>
+          <li><a href="#industries" ng-click="mobileMenuOpen = false">Industries</a></li>
+          <li><a href="#contact" class="btn-primary" ng-click="mobileMenuOpen = false">Request Quote</a></li>
         </ul>
       </nav>
 
-      <button class="mobile-toggle" id="mobileToggle" aria-label="Menu">&#9776;</button>
+      <button class="mobile-toggle" ng-click="mobileMenuOpen = !mobileMenuOpen" aria-label="Menu">&#9776;</button>
     </div>
   </header>
 
@@ -932,10 +932,10 @@
         <span class="hero-badge">B2B Telecom &amp; Infrastructure Hardware Supplier</span>
         <h1>
           Your Trusted Supply Partner for<br />
-          <span class="hero-dynamic" id="dynamicText">Utility &amp; Telecom Poles</span>
+          <span class="hero-dynamic">{{ activeHeroPhrase }}</span>
         </h1>
         <p>
-          <strong>Functionalities of GSS Corporation:</strong> Bulk supply of Galvanized &amp; Octagonal Poles, HDPE/DWC Conduits, Telecom Optical Fibre, Patch Cords, SFP Modules, Routers, ONUs, and Data Transfer items across major global brands.
+          <strong>Functionalities of {{ company.name }}:</strong> Bulk supply of Galvanized &amp; Octagonal Poles, HDPE/DWC Conduits, Telecom Optical Fibre, Patch Cords, SFP Modules, Routers, ONUs, and Data Transfer items across major global brands.
         </p>
         <div class="hero-actions">
           <a href="#contact" class="btn-green">Speak To Our Experts</a>
@@ -985,10 +985,10 @@
   <section id="about">
     <div class="container">
       <div class="section-header">
-        <span class="section-tag">About GSS Corporation</span>
+        <span class="section-tag">About {{ company.name }}</span>
         <h2>Powering Commercial, Industrial &amp; Telecom Rollouts</h2>
         <p>
-          GSS Corporation is a trusted B2B supplier specializing in bulk distribution of high-quality poles, HDPE/DWC conduits, and telecom infrastructure components with dependable delivery timelines.
+          {{ company.name }} is a trusted B2B supplier specializing in bulk distribution of high-quality poles, HDPE/DWC conduits, and telecom infrastructure components with dependable delivery timelines.
         </p>
       </div>
     </div>
@@ -997,66 +997,17 @@
   <section class="bg-soft" id="functionalities">
     <div class="container">
       <div class="section-header">
-        <span class="section-tag">Functionalities of GSS Corporation</span>
+        <span class="section-tag">Functionalities of {{ company.name }}</span>
         <h2>End-to-End Telecom &amp; Utility Hardware Supply</h2>
         <p>Complete procurement solutions covering outdoor structural poles, underground cable protection, and active networking gear.</p>
       </div>
 
       <div class="services-grid">
-        <div class="service-card">
-          <div class="service-icon">01</div>
-          <h3>Octagonal &amp; Tubular Poles</h3>
-          <p>Hot-dip galvanized octagonal poles, swaged steel tubular poles, and anti-corrosive painted poles for street lighting and telecom deployment.</p>
-          <a href="#products" class="read-more">View Specs &rarr;</a>
-        </div>
-
-        <div class="service-card">
-          <div class="service-icon">02</div>
-          <h3>HDPE &amp; DWC Conduit Pipes</h3>
-          <p>High-density polyethylene coils and double-wall corrugated (DWC) underground duct pipes engineered for safe optical fibre routing.</p>
-          <a href="#products" class="read-more">View Specs &rarr;</a>
-        </div>
-
-        <div class="service-card">
-          <div class="service-icon">03</div>
-          <h3>Telecom Optical Fibre</h3>
-          <p>Armoured, unarmoured, ADSS, and FTTH drop optical fibre cables in major brands for high-bandwidth backbone and last-mile networks.</p>
-          <a href="#contact" class="read-more">Enquire Bulk &rarr;</a>
-        </div>
-
-        <div class="service-card">
-          <div class="service-icon">04</div>
-          <h3>Patch Cords &amp; Accessories</h3>
-          <p>Simplex and duplex LC, SC, FC, and ST fibre optic patch cords, pigtails, joint closures, and LIU racks with low insertion loss.</p>
-          <a href="#contact" class="read-more">Enquire Bulk &rarr;</a>
-        </div>
-
-        <div class="service-card">
-          <div class="service-icon">05</div>
-          <h3>SFP Transceiver Modules</h3>
-          <p>1G, 10G, and 40G single-mode and multi-mode SFP/SFP+ optical transceivers compatible with all major enterprise switches and routers.</p>
-          <a href="#contact" class="read-more">Enquire Bulk &rarr;</a>
-        </div>
-
-        <div class="service-card">
-          <div class="service-icon">06</div>
-          <h3>Routers &amp; ONU Devices</h3>
-          <p>Enterprise routers, GPON/EPON/XPON ONUs, ONTs, and dual-band CPE gateways sourced from industry-leading telecom manufacturers.</p>
-          <a href="#contact" class="read-more">Enquire Bulk &rarr;</a>
-        </div>
-
-        <div class="service-card">
-          <div class="service-icon">07</div>
-          <h3>Data Transfer Items</h3>
-          <p>Cat6/Cat6A structured cabling, media converters, PoE switches, racks, and high-speed data transfer hardware for enterprise setups.</p>
-          <a href="#contact" class="read-more">Enquire Bulk &rarr;</a>
-        </div>
-
-        <div class="service-card">
-          <div class="service-icon">08</div>
-          <h3>Turnkey Project Kit Supply</h3>
-          <p>Consolidated bill-of-materials (BOM) fulfillment for ISP rollouts, smart city infrastructure, and government tender execution.</p>
-          <a href="#contact" class="read-more">Request BOM Quote &rarr;</a>
+        <div class="service-card" ng-repeat="func in functionalities">
+          <div class="service-icon">{{ func.code }}</div>
+          <h3>{{ func.title }}</h3>
+          <p>{{ func.description }}</p>
+          <a ng-href="{{ func.link }}" class="read-more">{{ func.ctaText }} &rarr;</a>
         </div>
       </div>
     </div>
@@ -1070,108 +1021,29 @@
         <p>Inspect our ready-to-dispatch inventory of galvanized poles, painted utility poles, and underground HDPE/DWC ducting pipes.</p>
       </div>
 
+      <!-- Dynamic Category Filter Buttons -->
       <div class="filter-tabs">
-        <button class="filter-btn active" data-filter="all">All Products</button>
-        <button class="filter-btn" data-filter="poles">Utility &amp; Telecom Poles</button>
-        <button class="filter-btn" data-filter="pipes">HDPE &amp; DWC Pipes</button>
+        <button class="filter-btn"
+                ng-repeat="tab in filterTabs"
+                ng-class="{'active': selectedCategory === tab.value}"
+                ng-click="setFilter(tab.value)">
+          {{ tab.label }}
+        </button>
       </div>
 
+      <!-- Dynamic Product Cards Populated via AngularJS ng-repeat -->
       <div class="product-grid">
-        <div class="product-card" data-category="poles">
+        <div class="product-card" ng-repeat="product in products | filter:categoryFilter">
           <div class="product-img-box">
-            <span class="product-badge">Poles</span>
-            <img src="assets/images/poles1.jpg" alt="Hot-Dip Galvanized Octagonal Poles" />
+            <span class="product-badge">{{ product.badge }}</span>
+            <img ng-src="{{ product.imagePath }}" alt="{{ product.title }}" />
           </div>
           <div class="product-body">
             <div>
-              <h3>Hot-Dip Galvanized Octagonal Poles</h3>
-              <p>High-tensile tapered octagonal steel poles with superior wind-load resistance for telecom masts, highway, and smart-city lighting.</p>
+              <h3>{{ product.title }}</h3>
+              <p>{{ product.description }}</p>
             </div>
-            <a href="#contact" class="read-more">Request Quote &rarr;</a>
-          </div>
-        </div>
-
-        <div class="product-card" data-category="poles">
-          <div class="product-img-box">
-            <span class="product-badge">Poles</span>
-            <img src="assets/images/poles2.jpg" alt="Flanged Galvanized Tubular Poles" />
-          </div>
-          <div class="product-body">
-            <div>
-              <h3>Flanged Galvanized Tubular Poles</h3>
-              <p>Heavy-duty base-plate flanged steel poles engineered for rapid bolt-down installation in telecom and CCTV surveillance networks.</p>
-            </div>
-            <a href="#contact" class="read-more">Request Quote &rarr;</a>
-          </div>
-        </div>
-
-        <div class="product-card" data-category="pipes">
-          <div class="product-img-box">
-            <span class="product-badge">HDPE Coils</span>
-            <img src="assets/images/poles3.jpg" alt="HDPE Telecom Optical Fibre Duct Coils" />
-          </div>
-          <div class="product-body">
-            <div>
-              <h3>HDPE Telecom Duct Coils</h3>
-              <p>Flexible, crush-resistant High-Density Polyethylene coils designed for trenchless HDD and underground optical fibre cable blowing.</p>
-            </div>
-            <a href="#contact" class="read-more">Request Quote &rarr;</a>
-          </div>
-        </div>
-
-        <div class="product-card" data-category="poles">
-          <div class="product-img-box">
-            <span class="product-badge">Bulk Stock</span>
-            <img src="assets/images/poles4.jpg" alt="Warehouse Stock of GI Pipes and Poles" />
-          </div>
-          <div class="product-body">
-            <div>
-              <h3>GI Pipes &amp; Structural Poles (Bulk Stock)</h3>
-              <p>Ready warehouse inventory of standard-length galvanized iron pipes and utility poles for immediate commercial and EPC dispatch.</p>
-            </div>
-            <a href="#contact" class="read-more">Request Quote &rarr;</a>
-          </div>
-        </div>
-
-        <div class="product-card" data-category="poles">
-          <div class="product-img-box">
-            <span class="product-badge">Coated Poles</span>
-            <img src="assets/images/poles5.jpg" alt="Anti-Corrosive Coated Stepped Tubular Poles" />
-          </div>
-          <div class="product-body">
-            <div>
-              <h3>Anti-Corrosive Coated Tubular Poles</h3>
-              <p>Stepped steel tubular poles finished with red-oxide primer and protective bitumen base coating for extended underground soil durability.</p>
-            </div>
-            <a href="#contact" class="read-more">Request Quote &rarr;</a>
-          </div>
-        </div>
-
-        <div class="product-card" data-category="pipes">
-          <div class="product-img-box">
-            <span class="product-badge">DWC Pipes</span>
-            <img src="assets/images/poles6.jpg" alt="Double Wall Corrugated HDPE DWC Pipes" />
-          </div>
-          <div class="product-body">
-            <div>
-              <h3>Double-Wall Corrugated (DWC) Pipes</h3>
-              <p>High ring-stiffness corrugated outer wall with smooth inner lining for effortless underground telecom and power cable pulling.</p>
-            </div>
-            <a href="#contact" class="read-more">Request Quote &rarr;</a>
-          </div>
-        </div>
-
-        <div class="product-card" data-category="pipes">
-          <div class="product-img-box">
-            <span class="product-badge">DWC Conduits</span>
-            <img src="assets/images/poles7.jpg" alt="Heavy Duty DWC Underground Cable Conduit" />
-          </div>
-          <div class="product-body">
-            <div>
-              <h3>Heavy-Duty Underground Cable Conduits</h3>
-              <p>IS-standard compliant DWC ducts with coupler sockets ensuring watertight jointing and long-term mechanical protection.</p>
-            </div>
-            <a href="#contact" class="read-more">Request Quote &rarr;</a>
+            <a href="#contact" ng-click="prefillQuote(product)" class="read-more">Request Quote &rarr;</a>
           </div>
         </div>
       </div>
@@ -1181,21 +1053,9 @@
   <section class="stats-section">
     <div class="container">
       <div class="stats-grid">
-        <div class="stat-item">
-          <div class="stat-number">100%</div>
-          <div class="stat-label">OEM Brand Genuine Supply</div>
-        </div>
-        <div class="stat-item">
-          <div class="stat-number">50+</div>
-          <div class="stat-label">Telecom &amp; Infra Product Lines</div>
-        </div>
-        <div class="stat-item">
-          <div class="stat-number">24/7</div>
-          <div class="stat-label">Bulk Dispatch &amp; Logistics Support</div>
-        </div>
-        <div class="stat-item">
-          <div class="stat-number">&lt; 8 Hrs</div>
-          <div class="stat-label">Quote &amp; Consultant Turnaround</div>
+        <div class="stat-item" ng-repeat="stat in stats">
+          <div class="stat-number">{{ stat.value }}</div>
+          <div class="stat-label">{{ stat.label }}</div>
         </div>
       </div>
     </div>
@@ -1208,29 +1068,9 @@
         <h2>Trusted Across Critical Infrastructure Verticals</h2>
       </div>
       <div class="industries-grid">
-        <div class="industry-card">
-          <span class="industry-tag">TELECOM</span>
-          <h4>Telecom &amp; ISPs</h4>
-        </div>
-        <div class="industry-card">
-          <span class="industry-tag">UTILITY</span>
-          <h4>Power &amp; Utility</h4>
-        </div>
-        <div class="industry-card">
-          <span class="industry-tag">CIVIC</span>
-          <h4>Smart Cities</h4>
-        </div>
-        <div class="industry-card">
-          <span class="industry-tag">GOVT</span>
-          <h4>Government &amp; PSU</h4>
-        </div>
-        <div class="industry-card">
-          <span class="industry-tag">EPC</span>
-          <h4>Industrial EPC</h4>
-        </div>
-        <div class="industry-card">
-          <span class="industry-tag">IT</span>
-          <h4>Enterprise IT</h4>
+        <div class="industry-card" ng-repeat="ind in industries">
+          <span class="industry-tag">{{ ind.tag }}</span>
+          <h4>{{ ind.name }}</h4>
         </div>
       </div>
     </div>
@@ -1248,48 +1088,48 @@
                 <span class="info-badge">LOC</span>
                 <div>
                   <strong>Head Office</strong><br />
-                  <span>206/B, JODHPUR GARDENS,KOLKATA, WEST BENGAL, 700045</span>
+                  <span>{{ company.address }}</span>
                 </div>
               </li>
               <li>
                 <span class="info-badge">TEL</span>
                 <div>
                   <strong>Call / WhatsApp</strong><br />
-                  <span>9147405003 / 8777578503</span>
+                  <span>{{ company.phone }}</span>
                 </div>
               </li>
               <li>
                 <span class="info-badge">MAIL</span>
                 <div>
                   <strong>Email Sales</strong><br />
-                  <span>gsscorporation26@gmail.com</span>
+                  <span>{{ company.email }}</span>
                 </div>
               </li>
             </ul>
           </div>
           <div>
-            <strong>GSS Corporation</strong> &mdash; <em>Connecting Technology. Empowering India.</em>
+            <strong>{{ company.name }}</strong> &mdash; <em>{{ company.tagline }}</em>
           </div>
         </div>
 
         <div class="contact-form-panel">
-          <form id="quoteForm">
+          <form ng-submit="submitQuote()">
             <div class="form-grid">
               <div class="form-group">
                 <label for="name">Full Name *</label>
-                <input type="text" id="name" placeholder="Enter your name" required />
+                <input type="text" id="name" ng-model="quoteForm.name" placeholder="Enter your name" required />
               </div>
               <div class="form-group">
                 <label for="company">Company / Organization *</label>
-                <input type="text" id="company" placeholder="Your company name" required />
+                <input type="text" id="company" ng-model="quoteForm.company" placeholder="Your company name" required />
               </div>
               <div class="form-group">
                 <label for="phone">Phone / WhatsApp Number *</label>
-                <input type="tel" id="phone" placeholder="+91 98XXX XXXXX" required />
+                <input type="tel" id="phone" ng-model="quoteForm.phone" placeholder="+91 98XXX XXXXX" required />
               </div>
               <div class="form-group">
                 <label for="category">Product Category *</label>
-                <select id="category" required>
+                <select id="category" ng-model="quoteForm.category" required>
                   <option value="">Select Product Requirement</option>
                   <option value="Poles">Octagonal / Tubular / GI Poles</option>
                   <option value="Pipes">HDPE Coils &amp; DWC Conduit Pipes</option>
@@ -1300,14 +1140,14 @@
               </div>
               <div class="form-group full">
                 <label for="message">Quantity, Preferred Brand &amp; Delivery Location *</label>
-                <textarea id="message" rows="4" placeholder="Describe required specs, quantities, or brand preferences..." required></textarea>
+                <textarea id="message" rows="4" ng-model="quoteForm.message" placeholder="Describe required specs, quantities, or brand preferences..." required></textarea>
               </div>
             </div>
             <button type="submit" class="btn-primary" style="width: 100%; justify-content: center;">
               Send Bulk Quote Request
             </button>
-            <p id="formFeedback" style="margin-top: 12px; font-weight: 600; color: var(--accent-green); display: none;">
-              Thank you! Your inquiry for GSS Corporation has been recorded. Our sales engineer will contact you shortly.
+            <p ng-if="formSubmitted" style="margin-top: 12px; font-weight: 600; color: var(--accent-green);">
+              Thank you! Your inquiry for {{ company.name }} has been recorded. Our sales engineer will contact you shortly.
             </p>
           </form>
         </div>
@@ -1319,7 +1159,7 @@
     <div class="container">
       <div class="footer-grid">
         <div class="footer-brand">
-          <img src="logo.png" alt="GSS Corporation Logo" onerror="this.style.display='none';" />
+          <img ng-src="{{ company.logoPath }}" alt="GSS Corporation Logo" onerror="this.style.display='none';" />
           <p>Trusted B2B supplier of utility poles, HDPE/DWC conduits, optical fibre, patch cords, SFPs, routers, ONUs, and data transfer hardware across India.</p>
         </div>
 
@@ -1348,16 +1188,16 @@
         <div class="footer-col">
           <h4>Contact Us</h4>
           <ul>
-            <li>206/B, JODHPUR GARDENS,KOLKATA, WEST BENGAL, 700045</li>
-            <li>9147405003 / 8777578503</li>
-            <li>gsscorporation26@gmail.com</li>
+            <li>{{ company.address }}</li>
+            <li>{{ company.phone }}</li>
+            <li>{{ company.email }}</li>
           </ul>
         </div>
       </div>
 
       <div class="footer-bottom">
-        <span>&copy; 2026 GSS CORPORATION. All Rights Reserved.</span>
-        <span>Connecting Technology. Empowering India.</span>
+        <span>&copy; 2026 {{ company.name }}. All Rights Reserved.</span>
+        <span>{{ company.tagline }}</span>
       </div>
     </div>
   </footer>
@@ -1366,50 +1206,154 @@
     Enquire Now
   </a>
 
+  <!-- ========================================================= -->
+  <!-- ANGULARJS CONTROLLER & CENTRAL IMAGE/DATA CONFIGURATION   -->
+  <!-- ========================================================= -->
   <script>
-    const mobileToggle = document.getElementById('mobileToggle');
-    const navLinks = document.getElementById('navLinks');
-    mobileToggle.addEventListener('click', () => {
-      navLinks.classList.toggle('active');
-    });
+    var app = angular.module('gssApp', []);
 
-    const phrases = [
-      'Utility & Telecom Poles',
-      'HDPE & DWC Conduit Pipes',
-      'Optical Fibre & Patch Cords',
-      'SFP, Routers & ONU Devices',
-      'Data Transfer Hardware'
-    ];
-    let phraseIndex = 0;
-    const dynamicEl = document.getElementById('dynamicText');
-    setInterval(() => {
-      phraseIndex = (phraseIndex + 1) % phrases.length;
-      dynamicEl.textContent = phrases[phraseIndex];
-    }, 2800);
+    app.controller('MainController', function($scope, $interval) {
+      
+      // 1. CENTRAL IMAGE FOLDER PATH (Change to 'images/' if images are inside an images folder)
+      var IMAGE_BASE_PATH = 'assets/images/'; 
 
-    const filterBtns = document.querySelectorAll('.filter-btn');
-    const productCards = document.querySelectorAll('.product-card');
+      // 2. COMPANY DETAILS & LOGO PATH
+      $scope.company = {
+        name: 'GSS CORPORATION',
+        tagline: 'Connecting Technology. Empowering India.',
+        logoPath: IMAGE_BASE_PATH + 'logo.jpg',
+        address: '206/B, JODHPUR GARDENS,KOLKATA, WEST BENGAL, 700045',
+        phone: '9147405003 / 8777578503',
+        email: 'gsscorporation26@gmail.com'
+      };
 
-    filterBtns.forEach(btn => {
-      btn.addEventListener('click', () => {
-        filterBtns.forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        const filter = btn.getAttribute('data-filter');
+      // 3. DYNAMIC PRODUCT GALLERY ITEMS (Add/Edit image paths right here!)
+      $scope.products = [
+        {
+          title: 'Hot-Dip Galvanized Octagonal Poles',
+          category: 'poles',
+          badge: 'Poles',
+          imagePath: IMAGE_BASE_PATH + 'poles1.jpg',
+          description: 'High-tensile tapered octagonal steel poles with superior wind-load resistance for telecom masts, highway, and smart-city lighting.'
+        },
+        {
+          title: 'Flanged Galvanized Tubular Poles',
+          category: 'poles',
+          badge: 'Poles',
+          imagePath: IMAGE_BASE_PATH + 'poles2.jpg',
+          description: 'Heavy-duty base-plate flanged steel poles engineered for rapid bolt-down installation in telecom and CCTV surveillance networks.'
+        },
+        {
+          title: 'HDPE Telecom Duct Coils',
+          category: 'pipes',
+          badge: 'HDPE Coils',
+          imagePath: IMAGE_BASE_PATH + 'poles3.jpg',
+          description: 'Flexible, crush-resistant High-Density Polyethylene coils designed for trenchless HDD and underground optical fibre cable blowing.'
+        },
+        {
+          title: 'GI Pipes & Structural Poles (Bulk Stock)',
+          category: 'poles',
+          badge: 'Bulk Stock',
+          imagePath: IMAGE_BASE_PATH + 'poles4.jpg',
+          description: 'Ready warehouse inventory of standard-length galvanized iron pipes and utility poles for immediate commercial and EPC dispatch.'
+        },
+        {
+          title: 'Anti-Corrosive Coated Tubular Poles',
+          category: 'poles',
+          badge: 'Coated Poles',
+          imagePath: IMAGE_BASE_PATH + 'poles5.jpg',
+          description: 'Stepped steel tubular poles finished with red-oxide primer and protective bitumen base coating for extended underground soil durability.'
+        },
+        {
+          title: 'Double-Wall Corrugated (DWC) Pipes',
+          category: 'pipes',
+          badge: 'DWC Pipes',
+          imagePath: IMAGE_BASE_PATH + 'poles6.jpg',
+          description: 'High ring-stiffness corrugated outer wall with smooth inner lining for effortless underground telecom and power cable pulling.'
+        },
+        {
+          title: 'Heavy-Duty Underground Cable Conduits',
+          category: 'pipes',
+          badge: 'DWC Conduits',
+          imagePath: IMAGE_BASE_PATH + 'poles7.jpg',
+          description: 'IS-standard compliant DWC ducts with coupler sockets ensuring watertight jointing and long-term mechanical protection.'
+        }
+      ];
 
-        productCards.forEach(card => {
-          if (filter === 'all' || card.getAttribute('data-category') === filter) {
-            card.style.display = 'flex';
-          } else {
-            card.style.display = 'none';
-          }
-        });
-      });
-    });
+      // 4. FUNCTIONALITIES LIST
+      $scope.functionalities = [
+        { code: '01', title: 'Octagonal & Tubular Poles', description: 'Hot-dip galvanized octagonal poles, swaged steel tubular poles, and anti-corrosive painted poles for street lighting and telecom deployment.', link: '#products', ctaText: 'View Specs' },
+        { code: '02', title: 'HDPE & DWC Conduit Pipes', description: 'High-density polyethylene coils and double-wall corrugated (DWC) underground duct pipes engineered for safe optical fibre routing.', link: '#products', ctaText: 'View Specs' },
+        { code: '03', title: 'Telecom Optical Fibre', description: 'Armoured, unarmoured, ADSS, and FTTH drop optical fibre cables in major brands for high-bandwidth backbone and last-mile networks.', link: '#contact', ctaText: 'Enquire Bulk' },
+        { code: '04', title: 'Patch Cords & Accessories', description: 'Simplex and duplex LC, SC, FC, and ST fibre optic patch cords, pigtails, joint closures, and LIU racks with low insertion loss.', link: '#contact', ctaText: 'Enquire Bulk' },
+        { code: '05', title: 'SFP Transceiver Modules', description: '1G, 10G, and 40G single-mode and multi-mode SFP/SFP+ optical transceivers compatible with all major enterprise switches and routers.', link: '#contact', ctaText: 'Enquire Bulk' },
+        { code: '06', title: 'Routers & ONU Devices', description: 'Enterprise routers, GPON/EPON/XPON ONUs, ONTs, and dual-band CPE gateways sourced from industry-leading telecom manufacturers.', link: '#contact', ctaText: 'Enquire Bulk' },
+        { code: '07', title: 'Data Transfer Items', description: 'Cat6/Cat6A structured cabling, media converters, PoE switches, racks, and high-speed data transfer hardware for enterprise setups.', link: '#contact', ctaText: 'Enquire Bulk' },
+        { code: '08', title: 'Turnkey Project Kit Supply', description: 'Consolidated bill-of-materials (BOM) fulfillment for ISP rollouts, smart city infrastructure, and government tender execution.', link: '#contact', ctaText: 'Request BOM Quote' }
+      ];
 
-    document.getElementById('quoteForm').addEventListener('submit', function(e) {
-      e.preventDefault();
-      document.getElementById('formFeedback').style.display = 'block';
-      this.reset();
+      // 5. STATS & INDUSTRIES
+      $scope.stats = [
+        { value: '100%', label: 'OEM Brand Genuine Supply' },
+        { value: '50+', label: 'Telecom & Infra Product Lines' },
+        { value: '24/7', label: 'Bulk Dispatch & Logistics Support' },
+        { value: '< 8 Hrs', label: 'Quote & Consultant Turnaround' }
+      ];
+
+      $scope.industries = [
+        { tag: 'TELECOM', name: 'Telecom & ISPs' },
+        { tag: 'UTILITY', name: 'Power & Utility' },
+        { tag: 'CIVIC', name: 'Smart Cities' },
+        { tag: 'GOVT', name: 'Government & PSU' },
+        { tag: 'EPC', name: 'Industrial EPC' },
+        { tag: 'IT', name: 'Enterprise IT' }
+      ];
+
+      // 6. FILTERING & UI INTERACTIVITY
+      $scope.filterTabs = [
+        { label: 'All Products', value: 'all' },
+        { label: 'Utility & Telecom Poles', value: 'poles' },
+        { label: 'HDPE & DWC Pipes', value: 'pipes' }
+      ];
+      $scope.selectedCategory = 'all';
+
+      $scope.setFilter = function(category) {
+        $scope.selectedCategory = category;
+      };
+
+      $scope.categoryFilter = function(product) {
+        if ($scope.selectedCategory === 'all') return true;
+        return product.category === $scope.selectedCategory;
+      };
+
+      // Rotating Hero Text via Angular $interval
+      var phrases = [
+        'Utility & Telecom Poles',
+        'HDPE & DWC Conduit Pipes',
+        'Optical Fibre & Patch Cords',
+        'SFP, Routers & ONU Devices',
+        'Data Transfer Hardware'
+      ];
+      var idx = 0;
+      $scope.activeHeroPhrase = phrases[0];
+      $interval(function() {
+        idx = (idx + 1) % phrases.length;
+        $scope.activeHeroPhrase = phrases[idx];
+      }, 2800);
+
+      // Quote Form Handling & Auto-Prefill on Product Click
+      $scope.quoteForm = {};
+      $scope.formSubmitted = false;
+
+      $scope.prefillQuote = function(product) {
+        $scope.quoteForm.category = product.category === 'poles' ? 'Poles' : 'Pipes';
+        $scope.quoteForm.message = 'Requesting bulk quote for: ' + product.title + '. Quantity: ';
+      };
+
+      $scope.submitQuote = function() {
+        $scope.formSubmitted = true;
+        $scope.quoteForm = {};
+      };
     });
   </script>
 </body>
