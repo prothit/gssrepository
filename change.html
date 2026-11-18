@@ -1,0 +1,1443 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="gssApp">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GSS Corporation | Connecting Technology. Empowering India.</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.3/angular.min.js"></script>
+  <style>
+    :root {
+      --primary-navy: #0a2e6e;
+      --dark-navy: #061b42;
+      --accent-green: #2e8b3d;
+      --light-green: #e8f5eb;
+      --light-blue: #eef4fc;
+      --text-dark: #1a2233;
+      --text-muted: #5a657d;
+      --white: #ffffff;
+      --border-color: #e2e8f0;
+      --shadow-sm: 0 4px 12px rgba(10, 46, 110, 0.06);
+      --shadow-md: 0 12px 30px rgba(10, 46, 110, 0.12);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      color: var(--text-dark);
+      background-color: var(--white);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    ul {
+      list-style: none;
+    }
+
+    .container {
+      width: 90%;
+      max-width: 1240px;
+      margin: 0 auto;
+    }
+
+    /* Top Announcement Bar */
+    .top-bar {
+      background: var(--dark-navy);
+      color: var(--white);
+      font-size: 0.85rem;
+      padding: 8px 0;
+    }
+
+    .top-bar .container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .top-bar-left span {
+      margin-right: 20px;
+    }
+
+    .badge-dot {
+      color: #4ade80;
+      font-weight: 700;
+      margin-right: 5px;
+    }
+
+    /* Navigation Header */
+    header {
+      background: var(--white);
+      box-shadow: var(--shadow-sm);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 0;
+    }
+
+    .logo-wrap {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .logo-wrap img {
+      height: 70px;
+      width: auto;
+      object-fit: contain;
+    }
+
+    .brand-fallback {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .brand-fallback strong {
+      font-size: 1.35rem;
+      color: var(--primary-navy);
+      letter-spacing: 0.5px;
+      line-height: 1.1;
+    }
+
+    .brand-fallback span {
+      font-size: 0.78rem;
+      color: var(--accent-green);
+      font-weight: 600;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+      font-weight: 600;
+      font-size: 0.95rem;
+    }
+
+    .nav-links a {
+      color: var(--text-dark);
+      transition: color 0.25s;
+    }
+
+    .nav-links a:hover {
+      color: var(--accent-green);
+    }
+
+    .dropdown {
+      position: relative;
+    }
+
+    .dropdown-menu {
+      position: absolute;
+      top: 130%;
+      left: 0;
+      background: var(--white);
+      min-width: 240px;
+      box-shadow: var(--shadow-md);
+      border-radius: 10px;
+      padding: 12px 0;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(10px);
+      transition: all 0.25s ease;
+      border-top: 3px solid var(--accent-green);
+    }
+
+    .dropdown:hover .dropdown-menu {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+
+    .dropdown-menu li a {
+      display: block;
+      padding: 9px 20px;
+      font-size: 0.9rem;
+      font-weight: 500;
+    }
+
+    .dropdown-menu li a:hover {
+      background: var(--light-blue);
+      color: var(--primary-navy);
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--primary-navy), #1348a8);
+      color: var(--white) !important;
+      padding: 11px 24px;
+      border-radius: 8px;
+      font-weight: 700;      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: transform 0.2s, box-shadow 0.2s;
+      border: none;
+      cursor: pointer;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(10, 46, 110, 0.25);
+    }
+
+    .btn-green {
+      background: linear-gradient(135deg, var(--accent-green), #226b2e);
+      color: var(--white) !important;
+      padding: 12px 26px;
+      border-radius: 8px;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .btn-green:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(46, 139, 61, 0.3);
+    }
+
+    .mobile-toggle {
+      display: none;
+      font-size: 1.5rem;
+      color: var(--primary-navy);
+      cursor: pointer;
+      background: none;
+      border: none;
+    }
+
+    /* Hero Section */
+    .hero {
+      background: linear-gradient(125deg, #061b42 0%, #0a2e6e 60%, #144d35 100%);
+      color: var(--white);
+      padding: 85px 0 95px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      right: -100px;
+      top: -100px;
+      width: 450px;
+      height: 450px;
+      border-radius: 50%;
+      background: rgba(46, 139, 61, 0.15);
+      pointer-events: none;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.25fr 0.85fr;
+      gap: 40px;
+      align-items: center;
+    }
+
+    .hero-badge {
+      display: inline-block;
+      background: rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      padding: 6px 16px;
+      border-radius: 50px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: 18px;
+      color: #86efac;
+    }
+
+    .hero h1 {
+      font-size: 2.65rem;
+      font-weight: 800;
+      line-height: 1.2;
+      margin-bottom: 16px;
+    }
+
+    .hero-dynamic {
+      color: #4ade80;
+      border-right: 3px solid #4ade80;
+      padding-right: 6px;
+    }
+
+    .hero p {
+      font-size: 1.08rem;
+      color: #dbeafe;
+      margin-bottom: 30px;
+      max-width: 620px;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .btn-outline-white {
+      border: 2px solid rgba(255, 255, 255, 0.6);
+      color: var(--white);
+      padding: 11px 24px;
+      border-radius: 8px;
+      font-weight: 700;
+      transition: all 0.25s;
+    }
+
+    .btn-outline-white:hover {
+      background: var(--white);
+      color: var(--primary-navy);
+    }
+
+    .hero-card {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      border-radius: 16px;
+      padding: 28px;
+    }
+
+    .hero-card h3 {
+      font-size: 1.2rem;
+      margin-bottom: 16px;
+      color: #86efac;
+    }
+
+    .hero-card ul li {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      margin-bottom: 12px;
+      font-size: 0.95rem;
+    }
+
+    .check-icon {
+      color: #4ade80;
+      font-weight: 800;
+    }
+
+    /* Trust Pillars Strip */
+    .pillars {
+      margin-top: -42px;
+      position: relative;
+      z-index: 10;
+    }
+
+    .pillars-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 22px;
+    }
+
+    .pillar-box {
+      background: var(--white);
+      padding: 24px 26px;
+      border-radius: 12px;
+      box-shadow: var(--shadow-md);
+      border-bottom: 4px solid var(--accent-green);
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .pillar-icon {
+      font-size: 1.2rem;
+      font-weight: 800;
+      color: var(--primary-navy);
+      background: var(--light-blue);
+      min-width: 52px;
+      height: 52px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 10px;
+    }
+
+    .pillar-box h4 {
+      font-size: 0.98rem;
+      font-weight: 800;
+      color: var(--primary-navy);
+      text-transform: uppercase;
+    }
+
+    .pillar-box p {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    /* Section Headings */
+    section {
+      padding: 80px 0;
+    }
+
+    .section-header {
+      text-align: center;
+      max-width: 760px;
+      margin: 0 auto 50px;
+    }
+
+    .section-tag {
+      display: inline-block;
+      background: var(--light-green);
+      color: var(--accent-green);
+      font-weight: 700;
+      font-size: 0.82rem;
+      padding: 5px 14px;
+      border-radius: 50px;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      margin-bottom: 10px;
+    }
+
+    .section-header h2 {
+      font-size: 2.15rem;
+      font-weight: 800;
+      color: var(--primary-navy);
+      margin-bottom: 12px;
+    }
+
+    .section-header p {
+      color: var(--text-muted);
+      font-size: 1rem;
+    }
+
+    /* Functionalities Grid */
+    .bg-soft {
+      background-color: #f8fafc;
+    }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 26px;
+    }
+
+    .service-card {
+      background: var(--white);
+      border-radius: 14px;
+      padding: 30px 26px;
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--border-color);
+      transition: all 0.3s ease;
+    }
+
+    .service-card:hover {
+      transform: translateY(-6px);
+      box-shadow: var(--shadow-md);
+      border-color: var(--accent-green);
+    }
+
+    .service-icon {
+      width: 52px;
+      height: 52px;
+      border-radius: 12px;
+      background: var(--light-blue);
+      color: var(--primary-navy);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.25rem;
+      font-weight: 800;
+      margin-bottom: 20px;
+      transition: all 0.3s;
+    }
+
+    .service-card:hover .service-icon {
+      background: var(--primary-navy);
+      color: var(--white);
+    }
+
+    .service-card h3 {
+      font-size: 1.18rem;
+      font-weight: 700;
+      color: var(--primary-navy);
+      margin-bottom: 10px;
+    }
+
+    .service-card p {
+      font-size: 0.93rem;
+      color: var(--text-muted);
+      margin-bottom: 18px;
+    }
+
+    .read-more {
+      font-weight: 700;
+      font-size: 0.9rem;
+      color: var(--accent-green);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+    }
+
+    /* Product Showcase Gallery */
+    .filter-tabs {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 36px;
+    }
+
+    .filter-btn {
+      padding: 9px 20px;
+      border-radius: 50px;
+      border: 1px solid var(--border-color);
+      background: var(--white);
+      font-weight: 600;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: all 0.25s;
+      color: var(--text-dark);
+    }
+
+    .filter-btn.active,
+    .filter-btn:hover {
+      background: var(--primary-navy);
+      color: var(--white);
+      border-color: var(--primary-navy);
+    }
+
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+      gap: 28px;
+    }
+
+    .product-card {
+      background: var(--white);
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--border-color);
+      transition: transform 0.3s, box-shadow 0.3s;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .product-card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .product-img-box {
+      height: 230px;
+      width: 100%;
+      overflow: hidden;
+      background: #eef2f6;
+      position: relative;
+    }
+
+    .product-img-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.4s ease;
+    }
+
+    .product-card:hover .product-img-box img {
+      transform: scale(1.06);
+    }
+
+    .product-badge {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      background: var(--primary-navy);
+      color: var(--white);
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 4px 12px;
+      border-radius: 50px;
+      z-index: 2;
+    }
+
+    .product-body {
+      padding: 22px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .product-body h3 {
+      font-size: 1.12rem;
+      font-weight: 700;
+      color: var(--primary-navy);
+      margin-bottom: 8px;
+    }
+
+    .product-body p {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      margin-bottom: 16px;
+    }
+
+    /* Stats Banner */
+    .stats-section {
+      background: linear-gradient(135deg, var(--primary-navy), var(--dark-navy));
+      color: var(--white);
+      padding: 70px 0;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 24px;
+      text-align: center;
+    }
+
+    .stat-item {
+      background: rgba(255, 255, 255, 0.06);
+      padding: 28px 20px;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+    }
+
+    .stat-number {
+      font-size: 2.3rem;
+      font-weight: 800;
+      color: #4ade80;
+      margin-bottom: 6px;
+    }
+
+    .stat-label {
+      font-size: 0.95rem;
+      color: #e2e8f0;
+      font-weight: 600;
+    }
+
+    /* Industries Served */
+    .industries-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 18px;
+    }
+
+    .industry-card {
+      background: var(--white);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 24px 16px;
+      text-align: center;
+      transition: all 0.25s;
+    }
+
+    .industry-card:hover {
+      background: var(--primary-navy);
+      color: var(--white);
+      transform: translateY(-4px);
+    }
+
+    .industry-tag {
+      display: inline-block;
+      font-size: 0.85rem;
+      font-weight: 800;
+      color: var(--accent-green);
+      background: var(--light-green);
+      padding: 6px 12px;
+      border-radius: 8px;
+      margin-bottom: 12px;
+    }
+
+    .industry-card:hover .industry-tag {
+      background: rgba(255, 255, 255, 0.15);
+      color: #4ade80;
+    }
+
+    .industry-card h4 {
+      font-size: 1rem;
+      font-weight: 700;
+    }
+
+    /* Quote / Contact Form Section */
+    .contact-wrapper {
+      display: grid;
+      grid-template-columns: 1fr 1.15fr;
+      gap: 40px;
+      background: var(--white);
+      border-radius: 18px;
+      box-shadow: var(--shadow-md);
+      overflow: hidden;
+      border: 1px solid var(--border-color);
+    }
+
+    .contact-info-panel {
+      background: linear-gradient(155deg, var(--primary-navy), var(--dark-navy));
+      color: var(--white);
+      padding: 42px 36px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .contact-info-panel h3 {
+      font-size: 1.7rem;
+      margin-bottom: 12px;
+    }
+
+    .contact-info-panel p {
+      color: #cbd5e1;
+      margin-bottom: 28px;
+      font-size: 0.95rem;
+    }
+
+    .info-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      margin-bottom: 20px;
+    }
+
+    .info-badge {
+      background: rgba(74, 222, 128, 0.15);
+      color: #4ade80;
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 700;
+    }
+
+    .contact-form-panel {
+      padding: 42px 36px;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+      margin-bottom: 18px;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .form-group.full {
+      grid-column: span 2;
+    }
+
+    .form-group label {
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--text-dark);
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      padding: 12px 14px;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      font-family: inherit;
+      font-size: 0.95rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      border-color: var(--primary-navy);
+    }
+
+    /* Footer */
+    footer {
+      background: #04122c;
+      color: #cbd5e1;
+      padding: 65px 0 25px;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 1.4fr 1fr 1fr 1.2fr;
+      gap: 36px;
+      margin-bottom: 45px;
+    }
+
+    .footer-brand img {
+      height: 56px;
+      background: var(--white);
+      padding: 6px 10px;
+      border-radius: 8px;
+      margin-bottom: 16px;
+    }
+
+    .footer-col h4 {
+      color: var(--white);
+      font-size: 1.05rem;
+      margin-bottom: 18px;
+    }
+
+    .footer-col ul li {
+      margin-bottom: 10px;
+      font-size: 0.92rem;
+    }
+
+    .footer-col ul li a:hover {
+      color: #4ade80;
+    }
+
+    .footer-bottom {
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      padding-top: 22px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      font-size: 0.88rem;
+    }
+
+    /* Floating Enquire Button */
+    .whatsapp-float {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: #25d366;
+      color: var(--white);
+      padding: 13px 22px;
+      border-radius: 50px;
+      font-weight: 700;
+      font-size: 0.92rem;
+      box-shadow: 0 8px 24px rgba(37, 211, 102, 0.4);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      z-index: 999;
+      transition: transform 0.2s;
+    }
+
+    .whatsapp-float:hover {
+      transform: scale(1.05);
+    }
+
+    @media (max-width: 960px) {
+      .hero-grid,
+      .contact-wrapper {
+        grid-template-columns: 1fr;
+      }
+
+      .pillars-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .footer-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    @media (max-width: 720px) {
+      .nav-links {
+        display: none;
+        flex-direction: column;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        background: var(--white);
+        padding: 20px;
+        box-shadow: var(--shadow-md);
+      }
+
+      .nav-links.active {
+        display: flex;
+      }
+
+      .mobile-toggle {
+        display: block;
+      }
+
+      .hero h1 {
+        font-size: 2rem;
+      }
+
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .form-group.full {
+        grid-column: span 1;
+      }
+
+      .footer-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body ng-controller="MainController">
+
+  <div class="top-bar">
+    <div class="container">
+      <div class="top-bar-left">
+        <span><span class="badge-dot">&#10003;</span> Bulk B2B Telecom &amp; Infrastructure Supply</span>
+        <span><span class="badge-dot">&#10003;</span> Pan-India Just-In-Time Delivery</span>
+      </div>
+      <div>
+        <span>{{ company.tagline }}</span>
+      </div>
+    </div>
+  </div>
+
+  <header>
+    <div class="container navbar">
+      <a href="#home" class="logo-wrap">
+        <img ng-src="{{ company.logoPath }}" alt="GSS Corporation Logo" onerror="this.style.display='none'; document.getElementById('logoText').style.display='flex';" />
+        <div class="brand-fallback" id="logoText" style="display:flex;">
+          <strong>{{ company.name }}</strong>
+          <span>{{ company.tagline }}</span>
+        </div>
+      </a>
+
+      <nav>
+        <ul class="nav-links" ng-class="{'active': mobileMenuOpen}">
+          <li><a href="#home" ng-click="mobileMenuOpen = false">Home</a></li>
+          <li><a href="#about" ng-click="mobileMenuOpen = false">About Us</a></li>
+          <li class="dropdown">
+            <a href="#functionalities">Functionalities &#9662;</a>
+            <ul class="dropdown-menu">
+              <li ng-repeat="item in functionalities | limitTo:5">
+                <a href="#functionalities" ng-click="mobileMenuOpen = false">{{ item.title }}</a>
+              </li>
+            </ul>
+          </li>
+          <li><a href="#products" ng-click="mobileMenuOpen = false">Product Portfolio</a></li>
+          <li><a href="#industries" ng-click="mobileMenuOpen = false">Industries</a></li>
+          <li><a href="#contact" class="btn-primary" ng-click="mobileMenuOpen = false">Request Quote</a></li>
+        </ul>
+      </nav>
+
+      <button class="mobile-toggle" ng-click="mobileMenuOpen = !mobileMenuOpen" aria-label="Menu">&#9776;</button>
+    </div>
+  </header>
+
+  <section class="hero" id="home">
+    <div class="container hero-grid">
+      <div>
+        <span class="hero-badge">B2B Telecom &amp; Infrastructure Hardware Supplier</span>
+        <h1>
+          Your Trusted Supply Partner for<br />
+          <span class="hero-dynamic">{{ activeHeroPhrase }}</span>
+        </h1>
+        <p>
+          <strong>Functionalities of {{ company.name }}:</strong> Bulk supply of Galvanized &amp; Octagonal Poles, HDPE/DWC Conduits, Telecom Optical Fibre, Patch Cords, SFP Modules, Routers, ONUs, and Data Transfer items across major global brands.
+        </p>
+        <div class="hero-actions">
+          <a href="#contact" class="btn-green">Speak To Our Experts</a>
+          <a href="#products" class="btn-outline-white">Explore Product Catalog</a>
+        </div>
+      </div>
+
+      <div class="hero-card">
+        <h3>Core Supply Capabilities</h3>
+        <ul>
+          <li><span class="check-icon">&#10003;</span> <span><strong>Telecom Infrastructure Poles:</strong> Octagonal, SP1-SP10 Tubular, Galvanized &amp; Painted Steel Poles</span></li>
+          <li><span class="check-icon">&#10003;</span> <span> <strong>Underground Ducting:</strong>HDPE Duct Coils And DWC Pipes In Various Sizes 6mm To 500mm</span></li>
+          <li><span class="check-icon">&#10003;</span> <span><strong>Optical Fibre &amp; Connectivity:</strong> Single/Multi-mode OFC, CAT5 and CAT6 Patch Cords &amp; SFP-ONT</span></li>
+          <li><span class="check-icon">&#10003;</span> <span><strong>Active Networking:</strong> Enterprise Routers, SFP Transceivers, GPON/EPON ONUs</span></li>
+		  <li><span class="check-icon">&#10003;</span> <span>Tubular Poles GI ,Tubular Poles MS,410SP1,410SP3,410SP13</span></li>
+		  <li><span class="check-icon">&#10003;</span> <span>MS BIS</span></li>
+		  <li><span class="check-icon">&#10003;</span> <span>Universal Pole Bracket</span></li>
+		  <li><span class="check-icon">&#10003;</span> <span>Jubilee Clamp/Pole Ring 18* SS202</span></li>
+          <li><span class="check-icon">&#10003;</span> <span>We Are Supplying Materials In PAN India</span></li>
+		  <li><span class="check-icon">&#10003;</span> <span>CCTV And Intercom Installation</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <div class="container pillars">
+    <div class="pillars-grid">
+      <div class="pillar-box">
+        <div class="pillar-icon">OEM</div>
+        <div>
+          <h4>Major Brand Assurance</h4>
+          <p>Genuine OEM-certified telecom &amp; networking hardware.</p>
+        </div>
+      </div>
+      <div class="pillar-box">
+        <div class="pillar-icon">JIT</div>
+        <div>
+          <h4>Just-In-Time Bulk Supply</h4>
+          <p>Streamlined dispatch for turnkey infrastructure rollouts.</p>
+        </div>
+      </div>
+      <div class="pillar-box">
+       <!--  <div class="pillar-icon">ISO</div> -->
+        <div>
+          <h4>Standardized Quality</h4>
+          <p>Tested poles, ducts, and fibre built for harsh field conditions.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <section id="about">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">About {{ company.name }}</span>
+        <h2>Powering Commercial, Industrial &amp; Telecom Rollouts</h2>
+        <p>
+          {{ company.name }} is a trusted B2B supplier specializing in bulk distribution of high-quality poles, HDPE/DWC conduits, and telecom infrastructure components with dependable delivery timelines.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-soft" id="functionalities">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Functionalities of {{ company.name }}</span>
+        <h2>End-to-End Telecom &amp; Utility Hardware Supply</h2>
+        <p>Complete procurement solutions covering outdoor structural poles, underground cable protection, and active networking gear.</p>
+      </div>
+
+      <div class="services-grid">
+        <div class="service-card" ng-repeat="func in functionalities">
+          <div class="service-icon">{{ func.code }}</div>
+          <h3>{{ func.title }}</h3>
+          <p>{{ func.description }}</p>
+          <a ng-href="{{ func.link }}" class="read-more">{{ func.ctaText }} &rarr;</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="products">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Product Portfolio</span>
+        <h2>Telecom Infrastructure Poles &amp; DWC Duct  Conduit Pipes</h2>
+        <!-- <p>Inspect our ready-to-dispatch inventory of galvanized poles, painted utility poles, and underground HDPE/DWC ducting pipes.</p> -->
+      </div>
+
+      <!-- Dynamic Category Filter Buttons -->
+      <div class="filter-tabs">
+        <button class="filter-btn"
+                ng-repeat="tab in filterTabs"
+                ng-class="{'active': selectedCategory === tab.value}"
+                ng-click="setFilter(tab.value)">
+          {{ tab.label }}
+        </button>
+      </div>
+
+      <!-- Dynamic Product Cards Populated via AngularJS ng-repeat -->
+      <div class="product-grid">
+        <div class="product-card" ng-repeat="product in products | filter:categoryFilter">
+          <div class="product-img-box">
+            <span class="product-badge">{{ product.badge }}</span>
+            <img ng-src="{{ product.imagePath }}" alt="{{ product.title }}" />
+          </div>
+          <div class="product-body">
+            <div>
+              <h3>{{ product.title }}</h3>
+              <p>{{ product.description }}</p>
+            </div>
+            <a href="#contact" ng-click="prefillQuote(product)" class="read-more">Request Quote &rarr;</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="stats-section">
+    <div class="container">
+      <div class="stats-grid">
+        <div class="stat-item" ng-repeat="stat in stats">
+          <div class="stat-number">{{ stat.value }}</div>
+          <div class="stat-label">{{ stat.label }}</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-soft" id="industries">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Sectors We Serve</span>
+        <h2>Trusted Across Critical Infrastructure Verticals</h2>
+      </div>
+      <div class="industries-grid">
+        <div class="industry-card" ng-repeat="ind in industries">
+          <span class="industry-tag">{{ ind.tag }}</span>
+          <h4>{{ ind.name }}</h4>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact">
+    <div class="container">
+      <div class="contact-wrapper">
+        <div class="contact-info-panel">
+          <div>
+            <h3>Tell Us About Your Project Requirements</h3>
+            <p>Share your Bill of Materials (BOM) for poles, HDPE/DWC pipes, optical fibre, patch cords, SFPs, routers, or ONUs. Our team will respond within 8 hours.</p>
+            <ul class="info-list">
+              <li>
+                <span class="info-badge">LOC</span>
+                <div>
+                  <strong>Head Office</strong><br />
+                  <span>{{ company.address }}</span>
+                </div>
+              </li>
+              <li>
+                <span class="info-badge">TEL</span>
+                <div>
+                  <strong>Call / WhatsApp</strong><br />
+                  <span>{{ company.phone }}</span>
+                </div>
+              </li>
+              <li>
+                <span class="info-badge">MAIL</span>
+                <div>
+                  <strong>Email Sales</strong><br />
+                  <span>{{ company.email }}</span>
+                </div>
+              </li>
+            </ul>
+          </div>
+          <div>
+            <strong>{{ company.name }}</strong> &mdash; <em>{{ company.tagline }}</em>
+          </div>
+        </div>
+
+        <div class="contact-form-panel">
+          <form ng-submit="submitQuote()">
+            <div class="form-grid">
+              <div class="form-group">
+                <label for="name">Full Name *</label>
+                <input type="text" id="name" ng-model="quoteForm.name" placeholder="Enter your name" required />
+              </div>
+              <div class="form-group">
+                <label for="company">Company / Organization *</label>
+                <input type="text" id="company" ng-model="quoteForm.company" placeholder="Your company name" required />
+              </div>
+              <div class="form-group">
+                <label for="phone">Phone / WhatsApp Number *</label>
+                <input type="tel" id="phone" ng-model="quoteForm.phone" placeholder="+91 98XXX XXXXX" required />
+              </div>
+              <div class="form-group">
+                <label for="category">Product Category *</label>
+                <select id="category" ng-model="quoteForm.category" required>
+                  <option value="">Select Product Requirement</option>
+                  <option value="Poles">Octagonal / Tubular / GI Poles</option>
+                  <option value="Pipes">HDPE Coils &amp; DWC Conduit Pipes</option>
+                  <option value="OFC">Optical Fibre Cable &amp; Patch Cords</option>
+                  <option value="Active">SFP Modules, Routers &amp; ONU Devices</option>
+                  <option value="Data">Data Transfer Items &amp; Full BOM</option>
+                </select>
+              </div>
+              <div class="form-group full">
+                <label for="message">Quantity, Preferred Brand &amp; Delivery Location *</label>
+                <textarea id="message" rows="4" ng-model="quoteForm.message" placeholder="Describe required specs, quantities, or brand preferences..." required></textarea>
+              </div>
+            </div>
+            <button type="submit" class="btn-primary" style="width: 100%; justify-content: center;">
+              Send Bulk Quote Request
+            </button>
+            <p ng-if="formSubmitted" style="margin-top: 12px; font-weight: 600; color: var(--accent-green);">
+              Thank you! Your inquiry for {{ company.name }} has been recorded. Our sales engineer will contact you shortly.
+            </p>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <img ng-src="{{ company.logoPath }}" alt="GSS Corporation Logo" onerror="this.style.display='none';" />
+          <p>Trusted B2B supplier of utility poles, HDPE/DWC conduits, optical fibre, patch cords, SFPs, routers, ONUs, and data transfer hardware across India.</p>
+        </div>
+
+        <div class="footer-col">
+          <h4>Quick Links</h4>
+          <ul>
+            <li><a href="#home">Home</a></li>
+            <li><a href="#about">About Us</a></li>
+            <li><a href="#functionalities">Functionalities</a></li>
+            <li><a href="#products">Product Portfolio</a></li>
+            <li><a href="#contact">Request Quote</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Core Products</h4>
+          <ul>
+            <li><a href="#products">Galvanized &amp; Octagonal Poles</a></li>
+            <li><a href="#products">HDPE &amp; DWC Pipes</a></li>
+            <li><a href="#functionalities">Optical Fibre &amp; Patch Cords</a></li>
+            <li><a href="#functionalities">SFP, Routers &amp; ONU</a></li>
+            <li><a href="#functionalities">Data Transfer Items</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Contact Us</h4>
+          <ul>
+            <li>{{ company.address }}</li>
+            <li>{{ company.phone }}</li>
+            <li>{{ company.email }}</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <span>&copy; 2026 {{ company.name }}. All Rights Reserved.</span>
+        <span>{{ company.tagline }}</span>
+      </div>
+    </div>
+  </footer>
+
+  <a href="#contact" class="whatsapp-float">
+    Enquire Now
+  </a>
+
+  <!-- ========================================================= -->
+  <!-- ANGULARJS CONTROLLER & CENTRAL IMAGE/DATA CONFIGURATION   -->
+  <!-- ========================================================= -->
+     <script>
+    var app = angular.module('gssApp', []);
+
+    app.controller('MainController', function($scope, $interval, $window) {
+      
+      // 1. CENTRAL IMAGE FOLDER PATH
+      var IMAGE_BASE_PATH = 'assets/images/'; 
+
+      // UI Menu State
+      $scope.mobileMenuOpen = false;
+
+      // 2. COMPANY DETAILS & LOGO PATH
+      $scope.company = {
+        name: 'GSS CORPORATION',
+        tagline: 'Connecting Technology. Empowering India.',
+        logoPath: IMAGE_BASE_PATH + 'logo.jpeg',
+        address: '206/B, JODHPUR GARDENS, KOLKATA, WEST BENGAL, 700045',
+        phone: '9147405003 / 8777578503',
+        whatsappNumber: '919147405003',
+        email: 'gsscorporation26@gmail.com'
+      };
+
+      // 3. DYNAMIC PRODUCT GALLERY ITEMS (All 15 Images Mapped to 3 Categories)
+      $scope.products = [
+        // --- CATEGORY 1: CCTV POLE ---
+        {
+          title: 'Hot-Dip Galvanized CCTV Surveillance Pole',
+          category: 'CCTV POLE',
+          badge: 'CCTV POLE',
+          imagePath: IMAGE_BASE_PATH + 'cctv1.jpeg',
+          description: 'High-tensile tapered galvanized steel pole engineered for outdoor CCTV camera mounting, smart-city surveillance, and telecom masts.'
+        },
+        {
+          title: 'Flanged Base-Plate CCTV Pole',
+          category: 'CCTV POLE',
+          badge: 'CCTV POLE',
+          imagePath: IMAGE_BASE_PATH + 'cctv2.jpeg',
+          description: 'Heavy-duty flanged tubular pole with reinforced base plate for rapid foundation bolt-down installation in high-wind zones.'
+        },
+        {
+          title: 'Octagonal & Tubular Security Camera Pole',
+          category: 'CCTV POLE',
+          badge: 'CCTV POLE',
+          imagePath: IMAGE_BASE_PATH + 'cctv3.jpeg',
+          description: 'Corrosion-resistant structural steel pole with integrated cable routing provision and universal camera mounting brackets.'
+        },
+        {
+          title: 'Heavy-Duty Highway & Industrial CCTV Mast',
+          category: 'CCTV POLE',
+          badge: 'CCTV POLE',
+          imagePath: IMAGE_BASE_PATH + 'cctv4.jpeg',
+          description: 'IS-standard compliant galvanized pole designed for long-term durability across industrial perimeters, highways, and PSU projects.'
+        },
+
+        // --- CATEGORY 2: DWC PIPE ---
+        {
+          title: 'Double-Wall Corrugated (DWC) Telecom Duct',
+          category: 'DWC PIPE',
+          badge: 'DWC PIPE',
+          imagePath: IMAGE_BASE_PATH + 'dwc1.jpeg',
+          description: 'High ring-stiffness corrugated exterior with smooth low-friction inner wall for effortless underground optical fibre cable pulling.'
+        },
+        {
+          title: 'Heavy-Duty Underground DWC Conduit Pipe',
+          category: 'DWC PIPE',
+          badge: 'DWC PIPE',
+          imagePath: IMAGE_BASE_PATH + 'dwc2.jpeg',
+          description: 'Crush-resistant HDPE Double-Wall Corrugated duct engineered to protect underground power and telecom cables against soil loads.'
+        },
+        {
+          title: 'IS-Standard DWC Cable Protection Pipe',
+          category: 'DWC PIPE',
+          badge: 'DWC PIPE',
+          imagePath: IMAGE_BASE_PATH + 'dwc3.jpeg',
+          description: 'Lightweight, flexible corrugated ducting available in multiple diameters for rapid trench laying and municipal utility rollouts.'
+        },
+        {
+          title: 'Coupler-Socketed DWC Ducting System',
+          category: 'DWC PIPE',
+          badge: 'DWC PIPE',
+          imagePath: IMAGE_BASE_PATH + 'dwc4.jpeg',
+          description: 'Precision-molded DWC pipes supplied with watertight coupler joints and sealing rings for moisture-free underground routing.'
+        },
+        {
+          title: 'High-Stiffness DWC Power & OFC Conduit',
+          category: 'DWC PIPE',
+          badge: 'DWC PIPE',
+          imagePath: IMAGE_BASE_PATH + 'dwc5.jpeg',
+          description: 'Anti-rodent, chemical-resistant double-wall pipe built for harsh underground civil engineering and EPC infrastructure.'
+        },
+        {
+          title: 'Bulk Coil & Straight-Length DWC Pipes',
+          category: 'DWC PIPE',
+          badge: 'DWC PIPE',
+          imagePath: IMAGE_BASE_PATH + 'dwc6.jpeg',
+          description: 'Ready-to-dispatch bulk stock of DWC underground conduits for broadband operators, smart cities, and highway networks.'
+        },
+        {
+          title: 'Multi-Size DWC Underground Ducting',
+          category: 'DWC PIPE',
+          badge: 'DWC PIPE',
+          imagePath: IMAGE_BASE_PATH + 'dwc7.jpeg',
+          description: 'Durable high-density corrugated conduits ensuring long-term mechanical protection for buried fibre and electrical lines.'
+        },
+
+        // --- CATEGORY 3: HDPE DUCT 40/33 ---
+        {
+          title: 'HDPE Telecom Duct 40/33mm Coil',
+          category: 'HDPE DUCT 40/33',
+          badge: 'HDPE DUCT 40/33',
+          imagePath: IMAGE_BASE_PATH + 'hdpeduct1.jpeg',
+          description: '40mm OD / 33mm ID Permanently Lubricated (PLB) HDPE telecom duct coil engineered for long-distance optical fibre cable blowing.'
+        },
+        {
+          title: 'PLB HDPE 40/33 Underground OFC Duct',
+          category: 'HDPE DUCT 40/33',
+          badge: 'HDPE DUCT 40/33',
+          imagePath: IMAGE_BASE_PATH + 'hdpeduct2.jpeg',
+          description: 'Silicon-core inner lining reduces friction during high-speed air-assisted fibre blowing across ISP backbone networks.'
+        },
+        {
+          title: 'Trenchless HDD HDPE Duct 40/33mm',
+          category: 'HDPE DUCT 40/33',
+          badge: 'HDPE DUCT 40/33',
+          imagePath: IMAGE_BASE_PATH + 'hdpeduct3.jpeg',
+          description: 'High-tensile, crush-proof 40/33mm polyethylene coil built to withstand Horizontal Directional Drilling (HDD) pulling stress.'
+        },
+        {
+          title: 'TEC-Compliant HDPE 40/33 Telecom Conduit',
+          category: 'HDPE DUCT 40/33',
+          badge: 'HDPE DUCT 40/33',
+          imagePath: IMAGE_BASE_PATH + 'hdpeduct4.jpeg',
+          description: 'UV-stabilized, high-density polyethylene coils supplied in standard bulk lengths for BharatNet, ISP, and government tenders.'
+        }
+      ];
+
+      // 4. FUNCTIONALITIES LIST
+      $scope.functionalities = [
+        { code: '01', title: 'Octagonal & Tubular Poles', description: 'Hot-dip galvanized octagonal poles, swaged steel tubular poles, and anti-corrosive painted poles for street lighting and telecom deployment.', link: '#products', ctaText: 'View Specs' },
+        { code: '02', title: 'HDPE & DWC Conduit Pipes', description: 'High-density polyethylene coils and double-wall corrugated (DWC) underground duct pipes engineered for safe optical fibre routing.', link: '#products', ctaText: 'View Specs' },
+        { code: '03', title: 'Telecom Optical Fibre', description: 'Armoured, unarmoured, ADSS, and FTTH drop optical fibre cables in major brands for high-bandwidth backbone and last-mile networks.', link: '#contact', ctaText: 'Enquire Bulk' },
+        { code: '04', title: 'Patch Cords & Accessories', description: 'Simplex and duplex LC, SC, FC, and ST fibre optic patch cords, pigtails, joint closures, and LIU racks with low insertion loss.', link: '#contact', ctaText: 'Enquire Bulk' },
+        { code: '05', title: 'SFP Transceiver Modules', description: '1G, 10G, and 40G single-mode and multi-mode SFP/SFP+ optical transceivers compatible with all major enterprise switches and routers.', link: '#contact', ctaText: 'Enquire Bulk' },
+        { code: '06', title: 'Routers & ONU Devices', description: 'Enterprise routers, GPON/EPON/XPON ONUs, ONTs, and dual-band CPE gateways sourced from industry-leading telecom manufacturers.', link: '#contact', ctaText: 'Enquire Bulk' },
+        { code: '07', title: 'Data Transfer Items', description: 'Cat6/Cat6A structured cabling, media converters, PoE switches, racks, and high-speed data transfer hardware for enterprise setups.', link: '#contact', ctaText: 'Enquire Bulk' },
+        { code: '08', title: 'Turnkey Project Kit Supply', description: 'Consolidated bill-of-materials (BOM) fulfillment for ISP rollouts, smart city infrastructure, and government tender execution.', link: '#contact', ctaText: 'Request BOM Quote' }
+      ];
+
+      // 5. STATS & INDUSTRIES
+      $scope.stats = [
+        { value: '100%', label: 'OEM Brand Genuine Supply' },
+        { value: '50+', label: 'Telecom & Infra Product Lines' },
+        { value: '24/7', label: 'Bulk Dispatch & Logistics Support' },
+        { value: '< 8 Hrs', label: 'Quote & Consultant Turnaround' }
+      ];
+
+      $scope.industries = [
+        { tag: 'TELECOM', name: 'Telecom & ISPs' },
+        { tag: 'UTILITY', name: 'Power & Utility' },
+        { tag: 'CIVIC', name: 'Smart Cities' },
+        { tag: 'GOVT', name: 'Government & PSU' },
+        { tag: 'EPC', name: 'Industrial EPC' },
+        { tag: 'IT', name: 'Enterprise IT' }
+      ];
+
+      // 6. FILTERING & UI INTERACTIVITY
+      $scope.filterTabs = [
+        { label: 'All Products', value: 'all' },
+        { label: 'CCTV POLE', value: 'CCTV POLE' },
+        { label: 'DWC PIPE', value: 'DWC PIPE' },
+        { label: 'HDPE DUCT 40/33', value: 'HDPE DUCT 40/33' }
+      ];
+      $scope.selectedCategory = 'all';
+
+      $scope.setFilter = function(category) {
+        $scope.selectedCategory = category;
+      };
+
+      $scope.categoryFilter = function(product) {
+        if ($scope.selectedCategory === 'all') return true;
+        return product.category === $scope.selectedCategory;
+      };
+
+      // Rotating Hero Text via Angular $interval
+      var phrases = [
+        'CCTV & Telecom Poles',
+        'DWC Conduit Pipes',
+        'HDPE Duct 40/33 Coils',
+        'Optical Fibre & Patch Cords',
+        'SFP, Routers & ONU Devices'
+      ];
+      var idx = 0;
+      $scope.activeHeroPhrase = phrases[0];
+      $interval(function() {
+        idx = (idx + 1) % phrases.length;
+        $scope.activeHeroPhrase = phrases[idx];
+      }, 2800);
+
+  // 7. QUOTE FORM HANDLING -> PRE-FILLED WHATSAPP MESSAGE
+$scope.quoteForm = {};
+$scope.formSubmitted = false;
+$scope.prefillQuote = function(product) {
+$scope.quoteForm.category = product.category;
+$scope.quoteForm.message = 'Requesting bulk quote for: ' + product.title + '. Quantity: ';
+};
+$scope.submitQuote = function() {
+var f = $scope.quoteForm || {};
+var lines = [
+'New B2B Quote Request - GSS Corporation',
+'----------------------------------',
+'Name: ' + (f.name || 'Not specified'),
+'Company: ' + (f.company || 'Not specified'),
+'Phone: ' + (f.phone || 'Not specified'),
+'Email: ' + (f.email || 'Not specified'),
+'Category: ' + (f.category || 'General Enquiry'),
+'Requirement / BOM: ' + (f.message || 'Please share product catalog & pricing.')
+];
+var encodedText = encodeURIComponent(lines.join('\n'));
+var whatsappUrl = 'http://wa.me/' + $scope.company.whatsappNumber + '?text=' + encodedText;
+$window.open(whatsappUrl, '_blank');
+$scope.formSubmitted = true;
+$scope.quoteForm = {};
+};
+});
+ </script>
+
+</body>
+</html>

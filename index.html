@@ -1213,74 +1213,139 @@
   <!-- ========================================================= -->
   <!-- ANGULARJS CONTROLLER & CENTRAL IMAGE/DATA CONFIGURATION   -->
   <!-- ========================================================= -->
-  <script>
+     <script>
     var app = angular.module('gssApp', []);
 
-    app.controller('MainController', function($scope, $interval) {
+    app.controller('MainController', function($scope, $interval, $window) {
       
-      // 1. CENTRAL IMAGE FOLDER PATH (Change to 'images/' if images are inside an images folder)
+      // 1. CENTRAL IMAGE FOLDER PATH
       var IMAGE_BASE_PATH = 'assets/images/'; 
+
+      // UI Menu State
+      $scope.mobileMenuOpen = false;
 
       // 2. COMPANY DETAILS & LOGO PATH
       $scope.company = {
         name: 'GSS CORPORATION',
         tagline: 'Connecting Technology. Empowering India.',
         logoPath: IMAGE_BASE_PATH + 'logo.jpeg',
-        address: '206/B, JODHPUR GARDENS,KOLKATA, WEST BENGAL, 700045',
+        address: '206/B, JODHPUR GARDENS, KOLKATA, WEST BENGAL, 700045',
         phone: '9147405003 / 8777578503',
+        whatsappNumber: '919147405003',
         email: 'gsscorporation26@gmail.com'
       };
 
-      // 3. DYNAMIC PRODUCT GALLERY ITEMS (Add/Edit image paths right here!)
+      // 3. DYNAMIC PRODUCT GALLERY ITEMS (All 15 Images Mapped to 3 Categories)
       $scope.products = [
+        // --- CATEGORY 1: CCTV POLE ---
         {
-          title: 'Hot-Dip Galvanized Octagonal Poles',
-          category: 'poles',
-          badge: 'Poles',
-          imagePath: IMAGE_BASE_PATH + 'poles1.jpg',
-          description: 'High-tensile tapered octagonal steel poles with superior wind-load resistance for telecom masts, highway, and smart-city lighting.'
+          title: 'Hot-Dip Galvanized CCTV Surveillance Pole',
+          category: 'CCTV POLE',
+          badge: 'CCTV POLE',
+          imagePath: IMAGE_BASE_PATH + 'cctv1.jpeg',
+          description: 'High-tensile tapered galvanized steel pole engineered for outdoor CCTV camera mounting, smart-city surveillance, and telecom masts.'
         },
         {
-          title: 'Flanged Galvanized Tubular Poles',
-          category: 'poles',
-          badge: 'Poles',
-          imagePath: IMAGE_BASE_PATH + 'poles2.jpg',
-          description: 'Heavy-duty base-plate flanged steel poles engineered for rapid bolt-down installation in telecom and CCTV surveillance networks.'
+          title: 'Flanged Base-Plate CCTV Pole',
+          category: 'CCTV POLE',
+          badge: 'CCTV POLE',
+          imagePath: IMAGE_BASE_PATH + 'cctv2.jpeg',
+          description: 'Heavy-duty flanged tubular pole with reinforced base plate for rapid foundation bolt-down installation in high-wind zones.'
         },
         {
-          title: 'HDPE Telecom Duct Coils',
-          category: 'pipes',
-          badge: 'HDPE Coils',
-          imagePath: IMAGE_BASE_PATH + 'poles3.jpg',
-          description: 'Flexible, crush-resistant High-Density Polyethylene coils designed for trenchless HDD and underground optical fibre cable blowing.'
-        },
-      <!--   { -->
-          <!-- title: 'GI Pipes & Structural Poles (Bulk Stock)', -->
-         <!--  category: 'poles',-->
-         <!--  badge: 'Bulk Stock', --> 
-          <!-- imagePath: IMAGE_BASE_PATH + 'poles4.jpg', -->
-         <!--  description: 'Ready warehouse inventory of standard-length galvanized iron pipes and utility poles for immediate commercial and EPC dispatch.' -->
-        <!-- }, -->
-        {
-          title: 'Anti-Corrosive Coated Tubular Poles',
-          category: 'poles',
-          badge: 'Coated Poles',
-          imagePath: IMAGE_BASE_PATH + 'poles5.jpg',
-          description: 'Stepped steel tubular poles finished with red-oxide primer and protective bitumen base coating for extended underground soil durability.'
+          title: 'Octagonal & Tubular Security Camera Pole',
+          category: 'CCTV POLE',
+          badge: 'CCTV POLE',
+          imagePath: IMAGE_BASE_PATH + 'cctv3.jpeg',
+          description: 'Corrosion-resistant structural steel pole with integrated cable routing provision and universal camera mounting brackets.'
         },
         {
-          title: 'Double-Wall Corrugated (DWC) Pipes',
-          category: 'pipes',
-          badge: 'DWC Pipes',
-          imagePath: IMAGE_BASE_PATH + 'poles6.jpg',
-          description: 'High ring-stiffness corrugated outer wall with smooth inner lining for effortless underground telecom and power cable pulling.'
+          title: 'Heavy-Duty Highway & Industrial CCTV Mast',
+          category: 'CCTV POLE',
+          badge: 'CCTV POLE',
+          imagePath: IMAGE_BASE_PATH + 'cctv4.jpeg',
+          description: 'IS-standard compliant galvanized pole designed for long-term durability across industrial perimeters, highways, and PSU projects.'
+        },
+
+        // --- CATEGORY 2: DWC PIPE ---
+        {
+          title: 'Double-Wall Corrugated (DWC) Telecom Duct',
+          category: 'DWC PIPE',
+          badge: 'DWC PIPE',
+          imagePath: IMAGE_BASE_PATH + 'dwc1.jpeg',
+          description: 'High ring-stiffness corrugated exterior with smooth low-friction inner wall for effortless underground optical fibre cable pulling.'
         },
         {
-          title: 'Heavy-Duty Underground Cable Conduits',
-          category: 'pipes',
-          badge: 'DWC Conduits',
-          imagePath: IMAGE_BASE_PATH + 'poles7.jpg',
-          description: 'IS-standard compliant DWC ducts with coupler sockets ensuring watertight jointing and long-term mechanical protection.'
+          title: 'Heavy-Duty Underground DWC Conduit Pipe',
+          category: 'DWC PIPE',
+          badge: 'DWC PIPE',
+          imagePath: IMAGE_BASE_PATH + 'dwc2.jpeg',
+          description: 'Crush-resistant HDPE Double-Wall Corrugated duct engineered to protect underground power and telecom cables against soil loads.'
+        },
+        {
+          title: 'IS-Standard DWC Cable Protection Pipe',
+          category: 'DWC PIPE',
+          badge: 'DWC PIPE',
+          imagePath: IMAGE_BASE_PATH + 'dwc3.jpeg',
+          description: 'Lightweight, flexible corrugated ducting available in multiple diameters for rapid trench laying and municipal utility rollouts.'
+        },
+        {
+          title: 'Coupler-Socketed DWC Ducting System',
+          category: 'DWC PIPE',
+          badge: 'DWC PIPE',
+          imagePath: IMAGE_BASE_PATH + 'dwc4.jpeg',
+          description: 'Precision-molded DWC pipes supplied with watertight coupler joints and sealing rings for moisture-free underground routing.'
+        },
+        {
+          title: 'High-Stiffness DWC Power & OFC Conduit',
+          category: 'DWC PIPE',
+          badge: 'DWC PIPE',
+          imagePath: IMAGE_BASE_PATH + 'dwc5.jpeg',
+          description: 'Anti-rodent, chemical-resistant double-wall pipe built for harsh underground civil engineering and EPC infrastructure.'
+        },
+        {
+          title: 'Bulk Coil & Straight-Length DWC Pipes',
+          category: 'DWC PIPE',
+          badge: 'DWC PIPE',
+          imagePath: IMAGE_BASE_PATH + 'dwc6.jpeg',
+          description: 'Ready-to-dispatch bulk stock of DWC underground conduits for broadband operators, smart cities, and highway networks.'
+        },
+        {
+          title: 'Multi-Size DWC Underground Ducting',
+          category: 'DWC PIPE',
+          badge: 'DWC PIPE',
+          imagePath: IMAGE_BASE_PATH + 'dwc7.jpeg',
+          description: 'Durable high-density corrugated conduits ensuring long-term mechanical protection for buried fibre and electrical lines.'
+        },
+
+        // --- CATEGORY 3: HDPE DUCT 40/33 ---
+        {
+          title: 'HDPE Telecom Duct 40/33mm Coil',
+          category: 'HDPE DUCT 40/33',
+          badge: 'HDPE DUCT 40/33',
+          imagePath: IMAGE_BASE_PATH + 'hdpeduct1.jpeg',
+          description: '40mm OD / 33mm ID Permanently Lubricated (PLB) HDPE telecom duct coil engineered for long-distance optical fibre cable blowing.'
+        },
+        {
+          title: 'PLB HDPE 40/33 Underground OFC Duct',
+          category: 'HDPE DUCT 40/33',
+          badge: 'HDPE DUCT 40/33',
+          imagePath: IMAGE_BASE_PATH + 'hdpeduct2.jpeg',
+          description: 'Silicon-core inner lining reduces friction during high-speed air-assisted fibre blowing across ISP backbone networks.'
+        },
+        {
+          title: 'Trenchless HDD HDPE Duct 40/33mm',
+          category: 'HDPE DUCT 40/33',
+          badge: 'HDPE DUCT 40/33',
+          imagePath: IMAGE_BASE_PATH + 'hdpeduct3.jpeg',
+          description: 'High-tensile, crush-proof 40/33mm polyethylene coil built to withstand Horizontal Directional Drilling (HDD) pulling stress.'
+        },
+        {
+          title: 'TEC-Compliant HDPE 40/33 Telecom Conduit',
+          category: 'HDPE DUCT 40/33',
+          badge: 'HDPE DUCT 40/33',
+          imagePath: IMAGE_BASE_PATH + 'hdpeduct4.jpeg',
+          description: 'UV-stabilized, high-density polyethylene coils supplied in standard bulk lengths for BharatNet, ISP, and government tenders.'
         }
       ];
 
@@ -1316,8 +1381,9 @@
       // 6. FILTERING & UI INTERACTIVITY
       $scope.filterTabs = [
         { label: 'All Products', value: 'all' },
-        { label: 'Utility & Telecom Poles', value: 'poles' },
-        { label: 'HDPE & DWC Pipes', value: 'pipes' }
+        { label: 'CCTV POLE', value: 'CCTV POLE' },
+        { label: 'DWC PIPE', value: 'DWC PIPE' },
+        { label: 'HDPE DUCT 40/33', value: 'HDPE DUCT 40/33' }
       ];
       $scope.selectedCategory = 'all';
 
@@ -1332,11 +1398,11 @@
 
       // Rotating Hero Text via Angular $interval
       var phrases = [
-        'Utility & Telecom Poles',
-        'HDPE & DWC Conduit Pipes',
+        'CCTV & Telecom Poles',
+        'DWC Conduit Pipes',
+        'HDPE Duct 40/33 Coils',
         'Optical Fibre & Patch Cords',
-        'SFP, Routers & ONU Devices',
-        'Data Transfer Hardware'
+        'SFP, Routers & ONU Devices'
       ];
       var idx = 0;
       $scope.activeHeroPhrase = phrases[0];
@@ -1345,20 +1411,33 @@
         $scope.activeHeroPhrase = phrases[idx];
       }, 2800);
 
-      // Quote Form Handling & Auto-Prefill on Product Click
-      $scope.quoteForm = {};
-      $scope.formSubmitted = false;
+  // 7. QUOTE FORM HANDLING -> PRE-FILLED WHATSAPP MESSAGE
+$scope.quoteForm = {};
+$scope.formSubmitted = false;
+$scope.prefillQuote = function(product) {
+$scope.quoteForm.category = product.category;
+$scope.quoteForm.message = 'Requesting bulk quote for: ' + product.title + '. Quantity: ';
+};
+$scope.submitQuote = function() {
+var f = $scope.quoteForm || {};
+var lines = [
+'New B2B Quote Request - GSS Corporation',
+'----------------------------------',
+'Name: ' + (f.name || 'Not specified'),
+'Company: ' + (f.company || 'Not specified'),
+'Phone: ' + (f.phone || 'Not specified'),
+'Email: ' + (f.email || 'Not specified'),
+'Category: ' + (f.category || 'General Enquiry'),
+'Requirement / BOM: ' + (f.message || 'Please share product catalog & pricing.')
+];
+var encodedText = encodeURIComponent(lines.join('\n'));
+var whatsappUrl = 'http://wa.me/' + $scope.company.whatsappNumber + '?text=' + encodedText;
+$window.open(whatsappUrl, '_blank');
+$scope.formSubmitted = true;
+$scope.quoteForm = {};
+};
+});
+ </script>
 
-      $scope.prefillQuote = function(product) {
-        $scope.quoteForm.category = product.category === 'poles' ? 'Poles' : 'Pipes';
-        $scope.quoteForm.message = 'Requesting bulk quote for: ' + product.title + '. Quantity: ';
-      };
-
-      $scope.submitQuote = function() {
-        $scope.formSubmitted = true;
-        $scope.quoteForm = {};
-      };
-    });
-  </script>
 </body>
 </html>
