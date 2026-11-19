@@ -415,8 +415,6 @@
     /* Functionalities Grid */
    .bg-soft {
       background-color: #f8fafc;
-	  position:relative;
-	  top:-56px;
     }
 
 
@@ -880,6 +878,20 @@
         grid-template-columns: 1fr;
       }
     }
+	
+	/* Reduce gap between About and Functionalities */
+#about {
+  padding-bottom: 40px;
+}
+
+#about .section-header {
+  margin-bottom: 0;
+}
+
+#functionalities {
+  padding-top: 40px;
+}
+
   </style>
 </head>
 <body ng-controller="MainController">
