@@ -975,31 +975,18 @@
     </div>
   </section>
 
-  <div class="container pillars">
-    <div class="pillars-grid">
-      <div class="pillar-box">
-        <div class="pillar-icon">OEM</div>
-        <div>
-          <h4>Major Brand Assurance</h4>
-          <p>Genuine OEM-certified telecom &amp; networking hardware.</p>
-        </div>
-      </div>
-      <div class="pillar-box">
-        <div class="pillar-icon">JIT</div>
-        <div>
-          <h4>Just-In-Time Bulk Supply</h4>
-          <p>Streamlined dispatch for turnkey infrastructure rollouts.</p>
-        </div>
-      </div>
-      <div class="pillar-box">
-        <div class="pillar-icon">QA</div>
-        <div>
-          <h4>Standardized Quality</h4>
-          <p>Tested poles, ducts, and fibre built for harsh field conditions.</p>
-        </div>
+ <div class="container pillars">
+  <div class="pillars-grid">
+    <div class="pillar-box" ng-repeat="pillar in pillars">
+      <div class="pillar-icon">{{ pillar.icon }}</div>
+      <div>
+        <h4>{{ pillar.title }}</h4>
+        <p>{{ pillar.description }}</p>
       </div>
     </div>
   </div>
+</div>
+
 
   <section id="about">
     <div class="container">
@@ -1017,8 +1004,8 @@
     <div class="container">
       <div class="section-header">
         <span class="section-tag">Functionalities of {{ company.name }}</span>
-        <h2>End-to-End Telecom &amp; Utility Hardware Supply</h2>
-        <p>Complete procurement solutions covering outdoor structural poles, underground cable protection, and active networking gear.</p>
+        <h2>{{functionalityheader}}</h2>
+        <p>{{functionalityheadertext}}</p>
       </div>
 
       <div class="services-grid">
@@ -1179,7 +1166,7 @@
       <div class="footer-grid">
         <div class="footer-brand">
           <img ng-src="{{ company.logoPath }}" alt="GSS Corporation Logo" onerror="this.style.display='none';" />
-          <p>Trusted B2B supplier of utility poles, HDPE/DWC conduits, optical fibre, patch cords, SFPs, routers, ONUs, and data transfer hardware across India.</p>
+          <p>{{footertext}}</p>
         </div>
 
         <div class="footer-col">
@@ -1255,10 +1242,10 @@
         // --- CATEGORY 1: CCTV POLE ---
         {
           title: 'Hot-Dip Galvanized CCTV Surveillance Pole',
-          category: 'CCTV POLE',
-          badge: 'CCTV POLE',
-          imagePath: IMAGE_BASE_PATH + 'cctv1.jpeg',
-          description: 'High-tensile tapered galvanized steel pole engineered for outdoor CCTV camera mounting, smart-city surveillance, and telecom masts.'
+          category: 'OCTAGONAL POLE',
+          badge: 'OCTAGONAL POLE',
+          imagePath: IMAGE_BASE_PATH + 'octagonalgalvanisedpoles.jpeg',
+          description: 'The design highlights: - Heavy-duty galvanized octagonal poles - Strong and durable construction - Corrosion-resistant finish - Flanged base plate with bolt holes - Telecom overhead cable and infrastructure applications - Suitable for CCTV, and Smart city projects'
         },
         {
           title: 'Flanged Base-Plate CCTV Pole',
@@ -1268,19 +1255,19 @@
           description: 'Heavy-duty flanged tubular pole with reinforced base plate for rapid foundation bolt-down installation in high-wind zones.'
         },
         {
-          title: 'Octagonal & Tubular Security Camera Pole',
-          category: 'CCTV POLE',
-          badge: 'CCTV POLE',
-          imagePath: IMAGE_BASE_PATH + 'cctv3.jpeg',
-          description: 'Corrosion-resistant structural steel pole with integrated cable routing provision and universal camera mounting brackets.'
+          title: 'GI Tubular Poles ',
+          category: 'GI TUBULAR POLE',
+          badge: 'GI TUBULAR POLE',
+          imagePath: IMAGE_BASE_PATH + 'steeltubularpole.jpeg',
+          description: 'The design features: - Galvanized tubular poles - GI Tubular Poles – Telecom & CCTV Infrastructure - Hot Dip Galvanized Tubular Poles - 7 Mtr, 9 Mtr and 11 Mtr available as per requirement - CCTV Camera Mounting Poles - Telecom Infrastructure overhead Poles - Customised Diameter, Thickness and Height - Technical Specifications Available on Request'
         },
-        {
-          title: 'Heavy-Duty Highway & Industrial CCTV Mast',
-          category: 'CCTV POLE',
-          badge: 'CCTV POLE',
-          imagePath: IMAGE_BASE_PATH + 'cctv4.jpeg',
-          description: 'IS-standard compliant galvanized pole designed for long-term durability across industrial perimeters, highways, and PSU projects.'
-        },
+        //{
+         // title: 'Heavy-Duty Highway & Industrial CCTV Mast',
+         // category: 'CCTV POLE',
+          //badge: 'CCTV POLE',
+         // imagePath: IMAGE_BASE_PATH + 'cctv4.jpeg',
+          //description: 'IS-standard compliant galvanized pole designed for long-term durability across industrial perimeters, highways, and PSU projects.'
+        //},
 
         // --- CATEGORY 2: DWC PIPE ---
         {
@@ -1361,6 +1348,13 @@
           badge: 'HDPE DUCT 40/33',
           imagePath: IMAGE_BASE_PATH + 'hdpeduct4.jpeg',
           description: 'UV-stabilized, high-density polyethylene coils supplied in standard bulk lengths for BharatNet, ISP, and government tenders.'
+        },
+		{
+          title: 'Server Rack',
+          category: 'SERVER RACK',
+          badge: 'SERVER RACK',
+          imagePath: IMAGE_BASE_PATH + 'serverrack.jpeg',
+          description: 'Premium Server/Network racks. Network switches and patch panels. Structured LAN and fibre cable management. Professional blue and yellow networking cables. UPS and equipment mounting. Suitable for ISP, FTTH, broadband, data centres and telecom infrastructure.'
         }
       ];
 
@@ -1398,7 +1392,9 @@
         { label: 'All Products', value: 'all' },
         { label: 'CCTV POLE', value: 'CCTV POLE' },
         { label: 'DWC PIPE', value: 'DWC PIPE' },
-        { label: 'HDPE DUCT 40/33', value: 'HDPE DUCT 40/33' }
+        { label: 'HDPE DUCT 40/33', value: 'HDPE DUCT 40/33' },
+		{ label: 'GI TUBULAR POLE', value: 'GI TUBULAR POLE' },
+		{ label: 'SERVER RACK', value: 'SERVER RACK' }
       ];
       $scope.selectedCategory = 'all';
 
@@ -1451,6 +1447,32 @@ $window.open(whatsappUrl, '_blank');
 $scope.formSubmitted = true;
 $scope.quoteForm = {};
 };
+
+$scope.footertext='Trusted B2B supplier of telecom poles, HDPE/DWC conduits, optical fibre, patch cords, SFPs, routers, ONUs, and data transfer hardware with all telecom-networking infrastructure items available  across India';
+
+
+
+ $scope.pillars = [
+    {
+      icon: 'OEM',
+      title: 'Major Brand Assurance',
+      description: 'Genuine OEM-certified telecom & networking hardware.'
+    },
+    {
+      icon: 'JIT',
+      title: 'Just-In-Time Bulk Supply',
+      description: 'Streamlined dispatch for turnkey infrastructure rollouts.'
+    },
+    {
+      icon: 'QA',
+      title: 'Standardized Quality',
+      description: 'Standardized Quality Tested telecom poles, ducts, and fibre built for harsh field conditions'
+    }
+  ];
+  
+ $scope.functionalityheadertext='Complete procurement solutions covering outdoor structural telecom-cctv poles, underground cable protection, and active networking gear.'
+  $scope.functionalityheader='End-to-End Telecom & Utility Hardware Supply'
+
 });
  </script>
 
