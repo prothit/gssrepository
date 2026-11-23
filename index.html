@@ -892,6 +892,16 @@
   padding-top: 40px;
 }
 
+@media (min-width: 768px) {
+ .product-img-box {
+    height: auto!important;
+    width: 100%!important;
+    overflow: hidden!important;
+    background: #eef2f6!important;
+    position: relative!important;
+}
+}
+
   </style>
 </head>
 <body ng-controller="MainController">
@@ -1352,6 +1362,13 @@
           badge: 'SERVER RACK',
           imagePath: IMAGE_BASE_PATH + 'serverrack.jpeg',
           description: 'Premium Server/Network racks. Network switches and patch panels. Structured LAN and fibre cable management. Professional blue and yellow networking cables. UPS and equipment mounting. Suitable for ISP, FTTH, broadband, data centres and telecom infrastructure.'
+        },
+		{
+          title: 'Copper Cable',
+          category: 'COPPER CABLE',
+          badge: 'COPPER CABLE',
+          imagePath: IMAGE_BASE_PATH + 'coppercable.jpeg',
+          description: 'COPPER CABLE SPECIFICATION: 100% copper cable rather than CCA (Copper Clad Aluminium). Reliable Connectivity. High-Speed Performance. Better Networking. Twisted-pair copper wiring. 250 MHz High Bandwidth. Gigabit Ethernet Support. Reduced Crosstalk. Ideal for Internet & LAN. IP CCTV & PoE Networking. IP CCTV Compatibility: Suitable for connecting IP cameras, NVRs and PoE network devices, subject to cable quality and PoE requirements.'
         }
       ];
 
@@ -1391,7 +1408,8 @@
         { label: 'DWC PIPE', value: 'DWC PIPE' },
         { label: 'HDPE DUCT 40/33', value: 'HDPE DUCT 40/33' },
 		{ label: 'GI TUBULAR POLE', value: 'GI TUBULAR POLE' },
-		{ label: 'SERVER RACK', value: 'SERVER RACK' }
+		{ label: 'SERVER RACK', value: 'SERVER RACK' },
+		{ label: 'COPPER CABLE', value: 'COPPER CABLE' }
       ];
       $scope.selectedCategory = 'all';
 

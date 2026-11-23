@@ -892,6 +892,16 @@
   padding-top: 40px;
 }
 
+@media (min-width: 768px) {
+ .product-img-box {
+    height: auto!important;
+    width: 100%!important;
+    overflow: hidden!important;
+    background: #eef2f6!important;
+    position: relative!important;
+}
+}
+
   </style>
 </head>
 <body ng-controller="MainController">
@@ -957,21 +967,18 @@
         </div>
       </div>
 
-      <div class="hero-card">
-        <h3>Core Supply Capabilities</h3>
-        <ul>
-          <li><span class="check-icon">&#10003;</span> <span><strong>Telecom Infrastructure Poles:</strong> Octagonal, SP1-SP10 Tubular, Galvanized &amp; Painted Steel Poles</span></li>
-          <li><span class="check-icon">&#10003;</span> <span> <strong>Underground Ducting:</strong>HDPE Duct Coils And DWC Pipes In Various Sizes 6mm To 500mm</span></li>
-          <li><span class="check-icon">&#10003;</span> <span><strong>Optical Fibre &amp; Connectivity:</strong> Single/Multi-mode OFC, CAT5 and CAT6 Patch Cords &amp; SFP-ONT</span></li>
-          <li><span class="check-icon">&#10003;</span> <span><strong>Active Networking:</strong> Enterprise Routers, SFP Transceivers, GPON/EPON ONUs</span></li>
-		  <li><span class="check-icon">&#10003;</span> <span>Tubular Poles GI ,Tubular Poles MS,410SP1,410SP3,410SP13</span></li>
-		  <li><span class="check-icon">&#10003;</span> <span>MS BIS</span></li>
-		  <li><span class="check-icon">&#10003;</span> <span>Universal Pole Bracket</span></li>
-		  <li><span class="check-icon">&#10003;</span> <span>Jubilee Clamp/Pole Ring 18* SS202</span></li>
-          <li><span class="check-icon">&#10003;</span> <span>We Are Supplying Materials In PAN India</span></li>
-		  <li><span class="check-icon">&#10003;</span> <span>CCTV And Intercom Installation</span></li>
+     <div class="hero-card" ng-controller="MainController">
+         <h3>Core Supply Capabilities</h3>
+         <ul>
+           <li ng-repeat="item in capabilities">
+              <span class="check-icon">&#10003;</span>
+                 <span>
+                  <strong ng-if="item.title">{{item.title }} </strong>{{item.description }}
+                </span>
+           </li>
         </ul>
-      </div>
+     </div>
+
     </div>
   </section>
 
@@ -1355,6 +1362,13 @@
           badge: 'SERVER RACK',
           imagePath: IMAGE_BASE_PATH + 'serverrack.jpeg',
           description: 'Premium Server/Network racks. Network switches and patch panels. Structured LAN and fibre cable management. Professional blue and yellow networking cables. UPS and equipment mounting. Suitable for ISP, FTTH, broadband, data centres and telecom infrastructure.'
+        },
+		{
+          title: 'Copper Cable',
+          category: 'COPPER CABLE',
+          badge: 'COPPER CABLE',
+          imagePath: IMAGE_BASE_PATH + 'coppercable.jpeg',
+          description: 'COPPER CABLE SPECIFICATION: 100% copper cable rather than CCA (Copper Clad Aluminium). Reliable Connectivity. High-Speed Performance. Better Networking. Twisted-pair copper wiring. 250 MHz High Bandwidth. Gigabit Ethernet Support. Reduced Crosstalk. Ideal for Internet & LAN. IP CCTV & PoE Networking. IP CCTV Compatibility: Suitable for connecting IP cameras, NVRs and PoE network devices, subject to cable quality and PoE requirements.'
         }
       ];
 
@@ -1394,7 +1408,8 @@
         { label: 'DWC PIPE', value: 'DWC PIPE' },
         { label: 'HDPE DUCT 40/33', value: 'HDPE DUCT 40/33' },
 		{ label: 'GI TUBULAR POLE', value: 'GI TUBULAR POLE' },
-		{ label: 'SERVER RACK', value: 'SERVER RACK' }
+		{ label: 'SERVER RACK', value: 'SERVER RACK' },
+		{ label: 'COPPER CABLE', value: 'COPPER CABLE' }
       ];
       $scope.selectedCategory = 'all';
 
@@ -1450,7 +1465,42 @@ $scope.quoteForm = {};
 
 $scope.footertext='Trusted B2B supplier of telecom poles, HDPE/DWC conduits, optical fibre, patch cords, SFPs, routers, ONUs, and data transfer hardware with all telecom-networking infrastructure items available  across India';
 
-
+$scope.capabilities = [
+      { 
+        title: 'Telecom Infrastructure Poles:', 
+        description: 'Octagonal, SP1-SP10 Tubular, Galvanized & Painted Steel Poles' 
+      },
+      { 
+        title: 'Underground Ducting:', 
+        description: 'HDPE Duct Coils And DWC Pipes In Various Sizes 6mm To 500mm' 
+      },
+      { 
+        title: 'Optical Fibre & Connectivity:', 
+        description: 'Single/Multi-mode OFC, CAT5 and CAT6 Patch Cords & SFP-ONT' 
+      },
+      { 
+        title: 'Active Networking:', 
+        description: 'Enterprise Routers, SFP Transceivers, GPON/EPON ONUs' 
+      },
+      { 
+        description: 'Tubular Poles GI ,Tubular Poles MS,410SP1,410SP3,410SP13' 
+      },
+      { 
+        description: 'MS BIS' 
+      },
+      { 
+        description: 'Universal Pole Bracket' 
+      },
+      { 
+        description: 'Jubilee Clamp/Pole Ring 18* SS202' 
+      },
+      { 
+        description: 'We Are Supplying Materials In PAN India' 
+      },
+      { 
+        description: 'CCTV And Intercom Installation' 
+      }
+    ];
 
  $scope.pillars = [
     {
