@@ -767,6 +767,7 @@
       grid-template-columns: 1.4fr 1fr 1fr 1.2fr;
       gap: 36px;
       margin-bottom: 45px;
+	  font-weight:bold;
     }
 
     .footer-brand img {
@@ -892,13 +893,8 @@
   padding-top: 40px;
 }
 
-@media (min-width: 768px) {
- .product-img-box {
-    width: 100%!important;
-    overflow: hidden!important;
-    background: #eef2f6!important;
-    position: relative!important;
-}
+.bold{
+font-weight:bold;
 }
 
   </style>
@@ -1096,28 +1092,15 @@
             <h3>Tell Us About Your Project Requirements</h3>
             <p>Share your Bill of Materials (BOM) for poles, HDPE/DWC pipes, optical fibre, patch cords, SFPs, routers, or ONUs. Our team will respond within 8 hours.</p>
             <ul class="info-list">
-              <li>
-                <span class="info-badge">LOC</span>
-                <div>
-                  <strong>Head Office</strong><br />
-                  <span>{{ company.address }}</span>
-                </div>
-              </li>
-              <li>
-                <span class="info-badge">TEL</span>
-                <div>
-                  <strong>Call / WhatsApp</strong><br />
-                  <span>{{ company.phone }}</span>
-                </div>
-              </li>
-              <li>
-                <span class="info-badge">MAIL</span>
-                <div>
-                  <strong>Email Sales</strong><br />
-                  <span>{{ company.email }}</span>
-                </div>
-              </li>
+                 <li ng-repeat="item in companyDetails">
+                      <span class="info-badge">{{ item.badge }}</span>
+                                <div>
+                                   <strong>{{ item.label }}</strong><br />
+                                   <span>{{ item.value }}</span>
+                                 </div>
+                   </li>
             </ul>
+
           </div>
           <div>
             <strong>{{ company.name }}</strong> &mdash; <em>{{ company.tagline }}</em>
@@ -1173,6 +1156,8 @@
         <div class="footer-brand">
           <img ng-src="{{ company.logoPath }}" alt="GSS Corporation Logo" onerror="this.style.display='none';" />
           <p>{{footertext}}</p>
+		  <label>{{companyDetails[companyDetails.length-1].label}}</label>
+		  <p>{{companyDetails[companyDetails.length-1].value}}</p>
         </div>
 
         <div class="footer-col">
@@ -1240,7 +1225,8 @@
         address: '206/B, JODHPUR GARDENS, KOLKATA, WEST BENGAL, 700045',
         phone: '9147405003 / 8777578503',
         whatsappNumber: '919147405003',
-        email: 'gsscorporation26@gmail.com'
+        email: 'gsscorporation26@gmail.com',
+		gstin:'19ACIFM9435D1ZY'
       };
 
       // 3. DYNAMIC PRODUCT GALLERY ITEMS (All 15 Images Mapped to 3 Categories)
@@ -1370,9 +1356,9 @@
           description: 'Premium Server/Network racks. Network switches and patch panels. Structured LAN and fibre cable management. Professional blue and yellow networking cables. UPS and equipment mounting. Suitable for ISP, FTTH, broadband, data centres and telecom infrastructure.'
         },
 		{
-          title: 'Copper Cable',
-          category: 'COPPER CABLE',
-          badge: 'COPPER CABLE',
+          title: 'CAT5 / CAT6 Copper Cable',
+          category: 'CAT5/CAT6 COPPER CABLE',
+          badge: 'CAT5/CAT6 COPPER CABLE',
           imagePath: IMAGE_BASE_PATH + 'coppercable.jpeg',
           description: 'COPPER CABLE SPECIFICATION: 100% copper cable rather than CCA (Copper Clad Aluminium). Reliable Connectivity. High-Speed Performance. Better Networking. Twisted-pair copper wiring. 250 MHz High Bandwidth. Gigabit Ethernet Support. Reduced Crosstalk. Ideal for Internet & LAN. IP CCTV & PoE Networking. IP CCTV Compatibility: Suitable for connecting IP cameras, NVRs and PoE network devices, subject to cable quality and PoE requirements.'
         }
@@ -1383,7 +1369,7 @@
         { code: '01', title: 'Octagonal & Tubular Telecom - CCTV Poles', description: 'Hot-dip galvanized octagonal poles, swaged steel tubular poles, and anti-corrosive painted poles for street lighting and telecom deployment.', link: '#products', ctaText: 'View Specs' },
         { code: '02', title: 'HDPE & DWC Conduit Pipes', description: 'High-density polyethylene coils and double-wall corrugated (DWC) underground duct pipes engineered for safe optical fibre routing.', link: '#products', ctaText: 'View Specs' },
         { code: '03', title: 'Telecom Optical Fibre', description: 'Armoured, unarmoured, ADSS, and FTTH drop optical fibre cables in major brands for high-bandwidth backbone and last-mile networks.', link: '#contact', ctaText: 'Enquire Bulk' },
-        { code: '04', title: 'Patch Cords & Accessories', description: 'All types of all types of simplex and duplex LC, SC, FC type fibre optic patch cords, pigtails, joint closers, Termination Box, LIU and all type of telecom Racks 6U, 9U, 42U available.', link: '#contact', ctaText: 'Enquire Bulk' },
+        { code: '04', title: 'Patch Cords & Accessories', description: 'All types of  simplex and duplex LC, SC, FC type fibre optic patch cords, pigtails, joint closers, Termination Box, LIU and all type of telecom Racks 6U, 9U, 42U available.', link: '#contact', ctaText: 'Enquire Bulk' },
         { code: '05', title: 'SFP Transceiver Modules', description: '1G, 10G, and 40G single-mode and multi-mode SFP/SFP+ optical transceivers compatible with all major enterprise switches and routers.', link: '#contact', ctaText: 'Enquire Bulk' },
         { code: '06', title: 'Routers & ONU Devices', description: 'Enterprise routers, GPON/EPON/XPON ONUs, ONTs, and dual-band CPE gateways sourced from industry-leading telecom manufacturers.', link: '#contact', ctaText: 'Enquire Bulk' },
         { code: '07', title: 'Data Transfer Items', description: 'Cat6/Cat6A structured cabling, media converters, PoE switches, racks, and high-speed data transfer hardware for enterprise setups.', link: '#contact', ctaText: 'Enquire Bulk' },
@@ -1415,7 +1401,7 @@
         { label: 'HDPE DUCT 40/33', value: 'HDPE DUCT 40/33' },
 		{ label: 'GI TUBULAR POLE', value: 'GI TUBULAR POLE' },
 		{ label: 'SERVER RACK', value: 'SERVER RACK' },
-		{ label: 'COPPER CABLE', value: 'COPPER CABLE' },
+		{ label: 'CAT5/CAT6 COPPER CABLE', value: 'CAT5/CAT6 COPPER CABLE' },
 		{ label: 'OCTAGONAL POLE', value: 'OCTAGONAL POLE' }
       ];
       $scope.selectedCategory = 'all';
@@ -1526,6 +1512,14 @@ $scope.capabilities = [
       description: 'Standardized Quality Tested telecom poles, ducts, and fibre built for harsh field conditions'
     }
   ];
+  
+  $scope.companyDetails = [
+    { badge: 'LOC',   label: 'Head Office',     value: $scope.company.address },
+    { badge: 'TEL',   label: 'Call / WhatsApp', value: $scope.company.phone },
+    { badge: 'MAIL',  label: 'Email Sales',     value: $scope.company.email },
+    { badge: 'GSTIN', label: 'GSTIN',           value: $scope.company.gstin }
+   ];
+
   
  $scope.functionalityheadertext='Complete procurement solutions covering outdoor structural telecom-cctv poles, underground cable protection, and active networking gear.'
   $scope.functionalityheader='End-to-End Telecom & Utility Hardware Supply'
